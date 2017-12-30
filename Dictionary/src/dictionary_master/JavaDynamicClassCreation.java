@@ -53,7 +53,8 @@ public class JavaDynamicClassCreation {
         source.append("public int compareTo(" + className + " object){\n");
         for (MyField field : fields) {
             if (field.isCompared) {
-                if (TypeRepository.getRepository().getType(field.type) instanceof Comparable) {
+                Object temp=TypeRepository.getRepository().getType(field.type);
+                if (temp instanceof Comparable) {
                     source.append("return " + field.name + ".compareTo(object." + field.name + ");\n");
                 } else {
                     source.append("if(" + field.name + "<object." + field.name + ");\n")
