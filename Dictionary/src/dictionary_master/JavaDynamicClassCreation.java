@@ -1,4 +1,5 @@
 package dictionary_master;
+
 import static javax.tools.JavaFileObject.Kind.SOURCE;
 
 import java.io.ByteArrayOutputStream;
@@ -14,85 +15,72 @@ import java.util.ArrayList;
 import javax.tools.SimpleJavaFileObject;
 
 /**
- * by Rob Austin
- * date Feb 1013
+ * by Rob Austin date Feb 1013
  */
-public class JavaDynamicClassCreation{
-	
-	
-	private String className;
-	private ArrayList<MyField> fields;
-	
-	public JavaDynamicClassCreation(){
- 		this.className="Hrllo";
-                this.fields=new ArrayList();
- 	}
-	
-	
-	public JavaDynamicClassCreation(String className,ArrayList<MyField> fields){
-		this.className=className;
-		this.fields=fields;
-		
-	}
-	
+public class JavaDynamicClassCreation {
+
+    private String className;
+    private ArrayList<MyField> fields;
+
+    public JavaDynamicClassCreation() {
+        this.className = "Hello";
+        this.fields = new ArrayList();
+    }
+
+    public JavaDynamicClassCreation(String className, ArrayList<MyField> fields) {
+        System.out.println("class created "+className);
+        this.className = className;
+        this.fields = fields;
+    }
 
     public void dynamicClassCreation() throws ClassNotFoundException, IllegalAccessException, InstantiationException, URISyntaxException, NoSuchFieldException {
-        final String path = "C:/Users/HP/Documents/NetBeansProjects/Dictionary_master/src/dictionary_master";
-        final String fullClassName = path+"/" + className;
-        
+        final String path = "C:/Users/Mostafa/Documents/NetBeansProjects/Dictionary_master/Dictionary/src/dictionary_master";
+        final String fullClassName = path + "/" + className;
+
         final StringBuilder source = new StringBuilder();
-        source.append("public class " + className + " implements Comparable<"+className+">{\n");
-        for(MyField field:fields){
-        	source.append(field.type+" "+field.name+";\n");
-        	
+        source.append("package dictionary_master;\n");
+        source.append("public class " + className + " implements Comparable<" + className + ">{\n");
+        for (MyField field : fields) {
+            source.append(field.type + " " + field.name + ";\n");
+
         }
-        source.append(" public String toString() {\n");
-        source.append("     return \"HelloWorld - Java Dynamic Class Creation was written by Rob Austin\";");
-        source.append(" }\n");
-        
-        
-        source.append("@override\n");
-        //////Begin og compare//////////////////////////////////////////////////
-        source.append("public int compareTo("+className+" object){\n");
-        
-        for(MyField field:fields){
-        	
-        	if(field.isCompared){
-        	   if(TypeRepository.getRepository().getType(field.type) instanceof Comparable){
-        		   source.append("return " +field.name+".compareTo(object."+field.name+");\n");
-        	   }
-        	   else{
-        		   source.append("if(" +field.name+"<object."+field.name+");\n");
-                           source.append("return -1;\n");
-                           source.append("return 1;\n");
-        	   }
-                   break;
-        	}
-        	
+        source.append(" public String toString() {\n")
+                .append("     return \"HelloWorld - Java Dynamic Class Creation was written by Rob Austin\";")
+                .append(" }\n")
+                .append("@Override\n");
+
+        //////////////Begin og compare//////////////////////////////////////////////////
+        source.append("public int compareTo(" + className + " object){\n");
+        for (MyField field : fields) {
+            if (field.isCompared) {
+                if (TypeRepository.getRepository().getType(field.type) instanceof Comparable) {
+                    source.append("return " + field.name + ".compareTo(object." + field.name + ");\n");
+                } else {
+                    source.append("if(" + field.name + "<object." + field.name + ");\n")
+                            .append("return -1;\n")
+                            .append("return 1;\n");
+                }
+                break;
+            }
         }
         source.append("}\n");
         ///end of compare///////////////////////////////////////////////////////
-        
+
         ////Begin of equals/////////////////////////////////////////////////////
-        source.append("public boolean equals("+className+" object){\n");
-              for(MyField field:fields){
-        	
-        	if(field.isCompared){
-        	   if(TypeRepository.getRepository().getType(field.type) instanceof Comparable){
-        		   source.append("return " +field.name+".equals(object."+field.name+");\n");
-        	   }
-        	   else{
-        		   source.append("return " +field.name+"==object."+field.name+");\n");
-        	   }
-                   break;
-        	}
-        	
+        source.append("public boolean equals(" + className + " object){\n");
+        for (MyField field : fields) {
+            if (field.isCompared) {
+                if (TypeRepository.getRepository().getType(field.type) instanceof Comparable) {
+                    source.append("return " + field.name + ".equals(object." + field.name + ");\n");
+                } else {
+                    source.append("return " + field.name + "==object." + field.name + ");\n");
+                }
+                break;
+            }
         }
-        
         source.append("}\n");
         ////////////////////////////////////////////////////////////////////////
-        
-        
+
         source.append("}\n");
 
         // A byte array output stream containing the bytes that would be written to the .class file
@@ -101,26 +89,25 @@ public class JavaDynamicClassCreation{
         final SimpleJavaFileObject simpleJavaFileObject
                 = new SimpleJavaFileObject(URI.create(fullClassName + ".java"), SOURCE) {
 
-            @Override
-            public CharSequence getCharContent(boolean ignoreEncodingErrors) {
-                return source;
-            }
+                    @Override
+                    public CharSequence getCharContent(boolean ignoreEncodingErrors) {
+                        return source;
+                    }
 
-            @Override
-            public OutputStream openOutputStream() throws IOException {
-                return byteArrayOutputStream;
-            }
-        };
+                    @Override
+                    public OutputStream openOutputStream() throws IOException {
+                        return byteArrayOutputStream;
+                    }
+                };
 
-        
-        File file = new File(fullClassName+".java");
+        File file = new File(fullClassName + ".java");
         FileWriter fr = null;
         try {
             fr = new FileWriter(file);
             fr.write(source.toString());
         } catch (IOException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             //close resources
             try {
                 fr.close();

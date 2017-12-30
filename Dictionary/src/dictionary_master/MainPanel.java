@@ -9,7 +9,6 @@ package dictionary_master;
  *
  * @author HP
  */
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,7 +19,10 @@ import java.net.URISyntaxException;
 import javafx.geometry.Insets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -40,7 +42,7 @@ import javafx.stage.Stage;
 
 
 public class MainPanel extends Application {
-  int flag=0;
+    int flag=0;
     String attName;
     String attType;
     boolean isEqual;
@@ -60,26 +62,27 @@ public class MainPanel extends Application {
     HBox h3 = new HBox();
     Label objType = new Label();
     ChoiceBox c2 = new ChoiceBox();
+    
     Stage myStage;
     Scene scene;
     ObservableList<String> l = FXCollections.observableArrayList();
     ObservableList<String> l1 = FXCollections.observableArrayList();
     HBox attrHbox = new HBox();
-    HBox h1 = new HBox(); HBox h2 = new HBox(); VBox v3 = new VBox(); Pane p = new Pane(); GridPane g = new GridPane(); 
-    File f = new File("C:\\Users\\user\\Documents\\NetBeansProjects\\dictionary_master\\src\\classes");
+    HBox h1 = new HBox();
+    HBox h2 = new HBox();
+    VBox v3 = new VBox();
+    Pane p = new Pane();
+    GridPane g = new GridPane();
+    File f = new File("C:\\Users\\user\\Documents\\NetBeansProjects\\saso\\src\\classes");
     Button createClass = new Button();
     Button createObj = new Button();
-    
-    
     @Override
-    public void start(Stage primaryStage) throws ClassNotFoundException, IllegalAccessException, InstantiationException, URISyntaxException, NoSuchFieldException {
-        new JavaDynamicClassCreation().dynamicClassCreation();
+    public void start(Stage primaryStage) throws ClassNotFoundException, IllegalAccessException, InstantiationException, URISyntaxException, NoSuchFieldException{
         objType.setText("Object type : ");
         h3.getChildren().add(objType);
         h3.getChildren().add(c2);
         objects.setTop(h3);
         h2.getChildren().add(createClass);
-        h2.getChildren().add(createObj);
         h2.getChildren().add(createObj);
         createObj.setText("Create Object");
         objects.setPadding(new Insets(20, 20, 20, 20));
@@ -89,7 +92,6 @@ public class MainPanel extends Application {
         array1.add("int");
         array1.add("String");
         array1.add("double");
-        
         array1.add("boolean");
         l.addAll(array);
         createClass.setText("Create class");
@@ -97,7 +99,6 @@ public class MainPanel extends Application {
         equal.setText("Use it for equal method ?");
         Button nxt = new Button();
         Button ok = new Button();
-        
         BorderPane root = new BorderPane();
         type.setText("Type of attribute ");
         nbAttributes.setText("Number of attributes : ");
@@ -109,7 +110,6 @@ public class MainPanel extends Application {
         Label name = new Label();
         nxt.setText("Next");
         ok.setText("Ok");
-        
         v2.getChildren().add(t);
         v2.getChildren().add(c);
         h.getChildren().add(nbAttributes);
@@ -119,8 +119,6 @@ public class MainPanel extends Application {
         attributes.setPadding(new Insets(20, 20, 20, 20));
         attributes.setBottom(h2);
         name.setText("Class name : ");
-        
-        
         Label inh = new Label();
         inh.setText("Inherits : ");
         v1.getChildren().add(name);
@@ -136,7 +134,7 @@ public class MainPanel extends Application {
         primaryStage.setTitle("My dictionary");
         primaryStage.setScene(scene1);
 
-        nxt.setOnAction(new EventHandler<ActionEvent>() {    
+        nxt.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 String txt = t.getText();
@@ -151,8 +149,7 @@ public class MainPanel extends Application {
                         c.getSelectionModel().selectFirst();
                         c.setItems(l);
                     }
-                    
-                    
+
                     array1.addAll(array);
                     array1.remove("None");
                 } else {
@@ -161,8 +158,6 @@ public class MainPanel extends Application {
                 }
             }
         });
-        
-        
         ok.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -186,10 +181,10 @@ public class MainPanel extends Application {
                             g.add(cAttr, 2, i + 1);
                             field.add(new MyField(cAttr,nAttr,c1));
                         }
-                       
-                        attributes.setCenter(g);
                         
-                              } else {//alert
+                        attributes.setCenter(g);
+
+                    } else {//alert
                         //nbAttributes.setVisible(false);
                         Alert.display("", "Number of attributes should be between 1 & 10");
                     }
@@ -201,7 +196,6 @@ public class MainPanel extends Application {
 
             }
         });
-        
         createClass.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -217,8 +211,23 @@ public class MainPanel extends Application {
                    }
                }
                if(flag==1){
-            new JavaDynamicClassCreation(name.getText(),field);
-            createObj.setVisible(true);}
+                   
+                   try {
+                       new JavaDynamicClassCreation(t.getText(), field).dynamicClassCreation();
+                       createObj.setVisible(true);
+                   } catch (ClassNotFoundException ex) {
+                       Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                   } catch (IllegalAccessException ex) {
+                       Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                   } catch (InstantiationException ex) {
+                       Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                   } catch (URISyntaxException ex) {
+                       Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                   } catch (NoSuchFieldException ex) {
+                       Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                   }
+               
+               }
             }
         });
          createObj.setOnAction(new EventHandler<ActionEvent>() {
@@ -230,27 +239,25 @@ public class MainPanel extends Application {
         });
         primaryStage.show();
     }
-    
-    
-        /*  public String readFromFile(File f){
-     try (BufferedReader reader = new BufferedReader(new FileReader(".\classes.txt"))) {
+ 
+    /*  public String readFromFile(File f){
+     try (BufferedReader reader = new BufferedReader(new FileReader(".\\classes.txt"))) {
      String line;
      if((line = reader.readLine()) != null)
      return line;
      } catch (IOException e) {
      e.printStackTrace();
      }
-     
+      
      }
      public void writeToFile(File f, String s){
-       
+        
      if(f.exists()){
      try {
      BufferedWriter bw = new BufferedWriter(new FileWriter(f, true));
-     bw.append("line 5 ");
+     bw.append("line 5 \n");
      bw.flush();
      bw.close();
-
      } catch (IOException e) {
      e.printStackTrace();
      }
@@ -258,23 +265,10 @@ public class MainPanel extends Application {
      else{
      System.out.println(f.getAbsolutePath() + " does not exists");
      }
-       
+        
      }*/
     public static void main(String[] args) {
         launch(args);
     }
 
 }
-                        
-                        
-                        
-                        
-                        
-                    
-                    
-                    
-        
-        
-    
-
-
