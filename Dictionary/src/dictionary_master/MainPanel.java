@@ -202,7 +202,7 @@ public class MainPanel extends Application {
                for(MyField f:(ArrayList<MyField>)field){
                    f.setAttributes();
                    if(!f.name.isEmpty()){
-                   System.out.println("name "+f.name+" type "+f.type+"checked"+f.isCompared);
+//                   System.out.println("name "+f.name+" type "+f.type+"checked"+f.isCompared);
                    flag=1;
                }
                    else{

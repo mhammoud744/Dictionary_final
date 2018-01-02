@@ -39,11 +39,15 @@ public class JavaDynamicClassCreation {
 
         final StringBuilder source = new StringBuilder();
         source.append("package dictionary_master;\n");
-        source.append("public class " + className + " implements Comparable<" + className + ">{\n");
+       //**************//
+        source.append("public class " + className + " implements Comparable<" + className + ">{\n"); // badna nzeed extends lal class in choiceBox
+        //*************//
         for (MyField field : fields) {
             source.append(field.type + " " + field.name + ";\n");
 
         }
+        
+        //*************//
         source.append(" public String toString() {\n")
                 .append("     return \"HelloWorld - Java Dynamic Class Creation was written by Rob Austin\";")
                 .append(" }\n")
