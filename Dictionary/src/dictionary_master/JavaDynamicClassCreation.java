@@ -13,6 +13,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import javax.tools.SimpleJavaFileObject;
+import org.omg.CORBA.Environment;
 
 /**
  * by Rob Austin date Feb 1013
@@ -34,10 +35,11 @@ public class JavaDynamicClassCreation {
     }
 
     public void dynamicClassCreation() throws ClassNotFoundException, IllegalAccessException, InstantiationException, URISyntaxException, NoSuchFieldException {
-        final String path = "C:/Users/Mostafa/Documents/NetBeansProjects/Dictionary_master/Dictionary/src/dictionary_master";
+        final String path = "./src/dictionary_master";
+        System.out.println(path);
         final String fullClassName = path + "/" + className;
 
-        final StringBuilder source = new StringBuilder();
+         StringBuilder source = new StringBuilder();
         source.append("package dictionary_master;\n");
        //**************//
         source.append("public class " + className + " implements Comparable<" + className + ">{\n"); // badna nzeed extends lal class in choiceBox
@@ -54,38 +56,76 @@ public class JavaDynamicClassCreation {
                 .append("@Override\n");
 
         //////////////Begin og compare//////////////////////////////////////////////////
-        source.append("public int compareTo(" + className + " object){\n");
-        for (MyField field : fields) {
-            if (field.isCompared) {
-                Object temp=TypeRepository.getRepository().getType(field.type);
-                if (temp instanceof Comparable) {
-                    source.append("return " + field.name + ".compareTo(object." + field.name + ");\n");
-                } else {
-                    source.append("if(" + field.name + "<object." + field.name + ");\n")
-                            .append("return -1;\n")
-                            .append("return 1;\n");
-                }
-                break;
-            }
-        }
-        source.append("}\n");
-        ///end of compare///////////////////////////////////////////////////////
+        //////Begin og compare//////////////////////////////////////////////////
+        source.append("public int compareTo("+className+" otherObj){\n");
+            
+            source.append("if(this.equals(otherObj))return 0;\n");
+            String s1="";
+        for(MyField field:fields){
+        	
+        	if(field.isCompared){
+        	   if(!TypeRepository.getRepository().getType(field.type).equals(TypeRepository.PRIMITIVE) && TypeRepository.getRepository().getType(field.type) instanceof Comparable){
+        		   s1=s1+field.name+".compareTo(otherObj."+field.name+")+";
+        	   }
+        	   else{
+                           
+                           s1=s1+"toInteger("+field.name+"<otherObj."+field.name+")+";                       
+        	   }
+        	}
 
-        ////Begin of equals/////////////////////////////////////////////////////
-        source.append("public boolean equals(" + className + " object){\n");
-        for (MyField field : fields) {
-            if (field.isCompared) {
-                if (TypeRepository.getRepository().getType(field.type) instanceof Comparable) {
-                    source.append("return " + field.name + ".equals(object." + field.name + ");\n");
-                } else {
-                    source.append("return " + field.name + "==object." + field.name + ");\n");
-                }
-                break;
-            }
+        	
         }
+        
+       s1=s1.substring(0,s1.length()-1);
+       
+       source.append("return "+s1+";");
+        source.append("}\n");
+        
+        
+      source.append("@Override\n");
+        
+        source.append("public boolean equals(Object otherObj){\n");
+       source.append(className+" other=("+className+")otherObj; \n");
+         source.append("if(this==otherObj){\n");
+                source.append("return true;\n");
+                source.append("}\n");
+                
+                source.append("if(otherObj==null){\n");
+                source.append("return false;\n");
+                source.append("}\n");
+                
+                
+                source.append("if(this.getClass()!=otherObj.getClass())\n return false; \n");
+                
+                
+        String s="";
+        for(MyField field:fields){
+        	
+                
+        	if(field.isCompared){
+                    
+                    
+        	   if(!TypeRepository.getRepository().getType(field.type).equals(TypeRepository.PRIMITIVE) && TypeRepository.getRepository().getType(field.type) instanceof Comparable){
+        		   s=s+field.name+".equals(other."+field.name+") &&";
+        	   }
+        	   else{
+         		   s=s+field.name+"==other."+field.name+" &&";
+        	   }
+        	}
+                
+                
+        	
+        }
+        s=s.substring(0,s.length()-3);
+        
+        source.append("return "+s+";\n");
         source.append("}\n");
         ////////////////////////////////////////////////////////////////////////
 
+        
+        source.append("public int toInteger(boolean b){\n"
+                + "if(b==true)return 1;\n"
+                + "return 0;}\n");
         source.append("}\n");
 
         // A byte array output stream containing the bytes that would be written to the .class file
@@ -96,7 +136,7 @@ public class JavaDynamicClassCreation {
 
                     @Override
                     public CharSequence getCharContent(boolean ignoreEncodingErrors) {
-                        return source;
+                        return "";
                     }
 
                     @Override
