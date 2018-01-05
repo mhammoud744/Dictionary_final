@@ -1,22 +1,16 @@
-package dictionary_master;
-public class P implements Comparable<P>{
-String x;
-int y;
+package MainPanle;
+public class Z implements Comparable<Z>{
+String ewvf;
+int vwe;
  public String toString() {
-   return "HelloWorld - Java Dynamic Class Creation was written by Rob Austin"; 
- }
- 
- 
+     return "HelloWorld - Java Dynamic Class Creation was written by Rob Austin"; }
 @Override
-public int compareTo(P otherObj){
+public int compareTo(Z otherObj){
 if(this.equals(otherObj))return 0;
-return 1;
-}
-
-
+return ewvf.compareTo(otherObj.ewvf);}
 @Override
 public boolean equals(Object otherObj){
-P other=(P)otherObj; 
+Z other=(Z)otherObj; 
 if(this==otherObj){
 return true;
 }
@@ -25,7 +19,7 @@ return false;
 }
 if(this.getClass()!=otherObj.getClass())
  return false; 
-return x.equals(other.x) &&y==other.y;
+return ewvf.equals(other.ewvf);
 }
 public int toInteger(boolean b){
 if(b==true)return 1;
