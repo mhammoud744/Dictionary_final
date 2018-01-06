@@ -38,7 +38,7 @@ public class JavaDynamicClassCreation {
         System.out.println(path);
         final String fullClassName = path + "/" + className;
         StringBuilder source = new StringBuilder();
-        source.append("package MainPanle;\n");
+        source.append("package dictionary_master;\n");
         //**************//
         source.append("public class " + className + " implements Comparable<" + className + ">{\n"); // badna nzeed extends lal class in choiceBox
         //*************//
