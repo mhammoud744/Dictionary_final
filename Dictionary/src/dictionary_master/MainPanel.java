@@ -356,7 +356,7 @@ public class MainPanel extends Application {
     }
 
     public List readFromFile() {
-        File file = new File("C:/Users/Mostafa/Documents/NetBeansProjects/Dictionary_master/Dictionary/src/dictionary_master/classes.txt");
+        File file = new File("./src/dictionary_master/classes.txt");
         Scanner readfile = null;
         try {
             readfile = new Scanner(file);
@@ -386,7 +386,7 @@ public class MainPanel extends Application {
     public void writeToFile(String s) {
         FileWriter classesFile = null;
         try {
-            classesFile = new FileWriter("C:/Users/Mostafa/Documents/NetBeansProjects/Dictionary_master/Dictionary/src/dictionary_master/classes.txt", true);
+            classesFile = new FileWriter("./src/dictionary_master/classes.txt", true);
         } catch (IOException ex) {
             Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
