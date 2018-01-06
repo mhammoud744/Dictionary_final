@@ -51,7 +51,7 @@ public class JavaDynamicClassCreation {
         
         //*************//
         source.append(" public String toString() {\n")
-                .append("     return \"HelloWorld - Java Dynamic Class Creation was written by Rob Austin\";")
+                .append("return \"HelloWorld - Java Dynamic Class Creation was written by Rob Austin\";")
                 .append(" }\n")
                 .append("@Override\n");
 
