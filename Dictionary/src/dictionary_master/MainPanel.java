@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import javafx.geometry.Insets;
 import java.util.ArrayList;
@@ -42,7 +43,6 @@ public class MainPanel extends Application {
     String attName;
     String attType;
     boolean isEqual;
-    String path = "C:/Users/Mostafa/Documents/NetBeansProjects/Dictionary_master/Dictionary/src/dictionary_master";
     //TextFields
     TextField classNameP2 = new TextField();
     TextField numOfAttribP3 = new TextField();
@@ -324,6 +324,25 @@ public class MainPanel extends Application {
             public void handle(ActionEvent e) {
                 for (MyField f : (ArrayList<MyField>) field) {
                     f.setAttributes();
+                    try {
+                        Class cls=Class.forName("dictionary_master.Code");
+                        Object obj=cls.getDeclaredConstructor(Integer.class,Integer.class,Integer.class).newInstance(1,2,3);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InstantiationException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IllegalAccessException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (NoSuchMethodException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SecurityException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }  catch (IllegalArgumentException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InvocationTargetException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                     if (!f.attName.isEmpty()) {
                         System.out.println("name " + f.attName + " type " + f.attType + " checked " + f.isCompared);
                         flag = 1;
