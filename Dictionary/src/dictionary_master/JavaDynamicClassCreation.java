@@ -2,7 +2,6 @@ package dictionary_master;
 
 import dictionary_master.MyField;
 import static javax.tools.JavaFileObject.Kind.SOURCE;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
@@ -28,14 +27,12 @@ public class JavaDynamicClassCreation {
     }
 
     public JavaDynamicClassCreation(String className, ArrayList<MyField> fields) {
-        System.out.println("class created " + className);
         this.className = className;
         this.fields = fields;
     }
 
     public void dynamicClassCreation() throws ClassNotFoundException, IllegalAccessException, InstantiationException, URISyntaxException, NoSuchFieldException {
         final String path = "./src/dictionary_master";
-        System.out.println(path);
         final String fullClassName = path + "/" + className;
         StringBuilder source = new StringBuilder();
         source.append("package dictionary_master;\n");
@@ -45,14 +42,13 @@ public class JavaDynamicClassCreation {
         for (MyField field : fields) {
             source.append(field.attType + " " + field.attName + ";\n");
         }
-        //*************//
         source.append(" public String toString() {\n")
                 .append("return \"HelloWorld - Java Dynamic Class Creation was written by Rob Austin\";")
                 .append(" }\n")
                 .append("@Override\n");
-        //////////////Begin og compare//////////////////////////////////////////////////
+        //////////////  Begin og compare  //////////////////////////////////////////////////
 
-        //////Begin og compare//////////////////////////////////////////////////
+        //////////////  Begin og compare  //////////////////////////////////////////////////
         source.append("public int compareTo(" + className + " otherObj){\n");
         source.append("if(this.equals(otherObj))return 0;\n");
         String s1 = "";
@@ -100,16 +96,16 @@ public class JavaDynamicClassCreation {
         final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         final SimpleJavaFileObject simpleJavaFileObject
                 = new SimpleJavaFileObject(URI.create(fullClassName + ".java"), SOURCE) {
-                    @Override
-                    public CharSequence getCharContent(boolean ignoreEncodingErrors) {
-                        return "";
-                    }
+            @Override
+            public CharSequence getCharContent(boolean ignoreEncodingErrors) {
+                return "";
+            }
 
-                    @Override
-                    public OutputStream openOutputStream() throws IOException {
-                        return byteArrayOutputStream;
-                    }
-                };
+            @Override
+            public OutputStream openOutputStream() throws IOException {
+                return byteArrayOutputStream;
+            }
+        };
         File file = new File(fullClassName + ".java");
         FileWriter fr = null;
         try {
@@ -125,7 +121,7 @@ public class JavaDynamicClassCreation {
                 e.printStackTrace();
             }
         }
-//        @SuppressWarnings("unchecked")
+        //        @SuppressWarnings("unchecked")
 //		final JavaFileManager javaFileManager = new ForwardingJavaFileManager(
 //                ToolProvider.getSystemJavaCompiler().getStandardFileManager(null, null, null)) {
 //

@@ -1,6 +1,5 @@
 package dictionary_master;
 
-
 import java.lang.reflect.Field;
 
 public class NbFields {
@@ -22,10 +21,12 @@ public class NbFields {
     public static void main(String args[]) {
         Code c = new Code();
         NbFields f = new NbFields();
+        System.out.println("cas" + c.getClass().getName().toString());
+        System.out.println(f.getColumnCount(c));
         System.out.println(f.getColumnCount(c));
         Field hold[] = f.getFieldss(c);
         for (Field field : hold) {
-            System.out.println("Field name = " + field.getName());
+            System.out.println("Fi name = " + field.getName());
             System.out.println("Field type = " + field.getType().getName());
         }
     }

@@ -1,7 +1,5 @@
 package dictionary_master;
 
-
-import dictionary_master.MyField;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -74,6 +72,7 @@ public class MainPanel extends Application {
     List array1P3 = new ArrayList();
     List array2P3 = new ArrayList();
     List classArrListP4 = new ArrayList();
+    List createObjArrListP4 = new ArrayList();
     ObservableList<String> obList1P3 = FXCollections.observableArrayList();
     ObservableList<String> obList2P3 = FXCollections.observableArrayList();
     ObservableList<String> classObListP4 = FXCollections.observableArrayList();
@@ -89,6 +88,7 @@ public class MainPanel extends Application {
     VBox vboxP1 = new VBox();
     //Buttons
     Button finishBtnP3 = new Button();
+    Button finishBtnP4 = new Button();
     Button nextBtnP2 = new Button();
     Button okBtnP3 = new Button();
     Button createClassBtnP1 = new Button();
@@ -143,6 +143,7 @@ public class MainPanel extends Application {
         P1.setPadding(new Insets(20, 20, 20, 20));
         P4.setTop(hboxP4);
         P4.setCenter(gridP4);
+        P4.setBottom(finishBtnP4);
         P4.setPadding(new Insets(20, 20, 20, 20));
         P3.setCenter(gridP3);
         P3.setPadding(new Insets(20, 20, 20, 20));
@@ -216,6 +217,14 @@ public class MainPanel extends Application {
             }
         });
 
+        //finishBtnP4 button on click
+        finishBtnP4.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                System.out.println("attributes are saved");
+            }
+        });
+        
         //fillObjAttribP1 button on click
         fillObjAttribP1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -227,22 +236,17 @@ public class MainPanel extends Application {
 //                gridP4.add(attrNameP4, 1, 1);
 //                gridP4.add(attrEqualP3, 2, 1);
                 System.out.println("gdg " + choiceBoxP4.getValue());
-
-                Code c = new Code();
-                NbFields f = new NbFields();
-                Field hold[] = f.getFieldss(c);
-                int i = 0;
-                for (Field field1 : hold) {
+                readCreatedFile(choiceBoxP4.getValue().toString());
+                for (int i = 0,j=0;i<createObjArrListP4.size();i=i+2,j++) {
                     TextField nAttr = new TextField();
                     Label type = new Label();
                     Label name = new Label();
-                    type.setText(field1.getName());
-                    name.setText(field1.getType().getName());
-                    gridP4.add(type, 0, i + 2);
-                    gridP4.add(name, 1, i + 2);
-                    gridP4.add(nAttr, 2, i + 2);
+                    type.setText(createObjArrListP4.get(i).toString());
+                    name.setText(createObjArrListP4.get(i+1).toString());
+                    gridP4.add(type, 0, j + 2);
+                    gridP4.add(name, 1, j + 2);
+                    gridP4.add(nAttr, 2, j + 2);
                     field.add(new MyField(type, name, nAttr));
-                    i++;
                 }
             }
         });
@@ -352,7 +356,7 @@ public class MainPanel extends Application {
                     }
                 }
                 if (flag == 1) {
-
+                    System.out.println("flag = " + flag);
                     try {
                         new JavaDynamicClassCreation(classNameP2.getText(), field).dynamicClassCreation();
                     } catch (ClassNotFoundException ex) {
@@ -367,6 +371,11 @@ public class MainPanel extends Application {
                         Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
+                }
+                try {
+                    createFile(field, classNameP2.getText());
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -412,8 +421,35 @@ public class MainPanel extends Application {
         BufferedWriter bf = new BufferedWriter(classesFile);
         PrintWriter pw = new PrintWriter(bf);
         pw.println(s);
-        System.out.println("name is added to the file");
         pw.close();
+    }
+
+    public void createFile(ArrayList<MyField> attributes, String filename) throws FileNotFoundException {
+        //FileWriter classFile = null;
+        String path = "./src/dictionary_master/fileFolder/" + filename + ".txt";
+        PrintWriter pw = new PrintWriter(path);
+        for (MyField f : attributes) {
+            pw.println(f.attType);
+            pw.println(f.attName);
+        }
+        pw.close();
+    }
+     
+    public List readCreatedFile(String filename) {
+         String path = "./src/dictionary_master/fileFolder/" + filename + ".txt";
+        File file = new File(path);
+        Scanner readfile = null;
+        try {
+            readfile = new Scanner(file);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        while (readfile.hasNext()) {
+            String str = readfile.nextLine();
+            createObjArrListP4.add(str);
+        }
+        readfile.close();
+        return createObjArrListP4;
     }
 
     public static void main(String[] args) {
