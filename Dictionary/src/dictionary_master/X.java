@@ -2,7 +2,7 @@ package dictionary_master;
 public class X implements Comparable<X>{
 int a;
  public String toString() {
-return "HelloWorld - Java Dynamic Class Creation was written by Rob Austin"; }
+return ""; }
  public X(){
      System.out.println("X created");    
  }
