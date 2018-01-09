@@ -39,7 +39,7 @@ class Alert {
         lyt1.getChildren().addAll(lbl1 , closebutton);
         lyt1.setAlignment(Pos.CENTER);
         lyt1.setId("alert");
-        Scene scene = new Scene(lyt1,500,150);
+        Scene scene = new Scene(lyt1,700,150);
         scene.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm()); 
         window.setScene(scene);
         window.showAndWait();

@@ -62,6 +62,7 @@ public class MainPanel extends Application {
     BorderPane P1 = new BorderPane();
     BorderPane P4 = new BorderPane();
     BorderPane P2 = new BorderPane();
+    GridPane gridP1 = new GridPane();
     GridPane gridP3 = new GridPane();
     GridPane gridP2 = new GridPane();
     GridPane gridP4 = new GridPane();
@@ -102,7 +103,7 @@ public class MainPanel extends Application {
         attrNameP3.setText("Name of attribute");
         attrEqualP3.setText("Use it for equal method ?");
         attrtypeP3.setText("Type of attribute ");
-        attrLabelP3.setText("Number of attributes : ");
+        attrLabelP3.setText("Nb of attributes : ");
 //        attrtypeP4.setText("Type");
 //        attrLabelP4.setText("Name");
         classLabelP2.setText("Class name : ");
@@ -111,7 +112,7 @@ public class MainPanel extends Application {
         okBtnP3.setText("Ok");
         finishBtnP3.setText("Finish");
         createClassBtnP1.setText("Create your own class");
-        createObjectBtnP1.setText("Create an object");
+        createObjectBtnP1.setText("   Create an object  ");
         fillObjAttribP1.setText("Fill the attributes");
         //Hbox and Vbox
         hbox2P3.getChildren().add(finishBtnP3);
@@ -119,8 +120,8 @@ public class MainPanel extends Application {
         hboxP4.getChildren().add(choiceBoxP4);
         hboxP4.getChildren().add(fillObjAttribP1);
         hbox2P3.setId("hid");
-        vboxP1.getChildren().add(createClassBtnP1);
-        vboxP1.getChildren().add(createObjectBtnP1);
+       // vboxP1.getChildren().add(createClassBtnP1);
+       // vboxP1.getChildren().add(createObjectBtnP1);
         vboxP2.getChildren().add(hbox1P2);
         vboxP2.getChildren().add(hbox2P2);
         vboxP2.setId("vboxP2");
@@ -139,7 +140,7 @@ public class MainPanel extends Application {
         choiceBoxP2.setItems(obList1P3);
         choiceBoxP2.getSelectionModel().selectFirst();
         //Panes
-        P1.setCenter(vboxP1);
+        P1.setCenter(gridP1);
         P1.setPadding(new Insets(20, 20, 20, 20));
         P4.setTop(hboxP4);
         P4.setCenter(gridP4);
@@ -156,21 +157,26 @@ public class MainPanel extends Application {
         gridP2.add(classNameP2, 1, 0);
         gridP2.add(choiceBoxP2, 1, 1);
         /////////////////////////
+        gridP1.add(createClassBtnP1, 7,4);
+        gridP1.add(createObjectBtnP1, 7,6);
         gridP3.add(attrLabelP3, 0, 0);
         gridP3.add(numOfAttribP3, 1, 0);
         gridP3.add(okBtnP3, 2, 0);
         gridP3.setHgap(20);
         gridP3.setVgap(20);
+        gridP1.setPadding(new Insets(30, 30, 30, 30));
         gridP3.setPadding(new Insets(10, 10, 10, 10));
         gridP2.setHgap(30);
         gridP2.setVgap(30);
         gridP4.setPadding(new Insets(10, 10, 10, 10));
         gridP4.setHgap(30);
         gridP4.setVgap(30);
+        gridP1.setHgap(30);
+        gridP1.setVgap(30);
         gridP2.setPadding(new Insets(20, 20, 20, 20));
         //Stage and Scene
         myStage = primaryStage;
-        Scene scene1 = new Scene(P1, 730, 700);
+        Scene scene1 = new Scene(P1, 740, 500);
         primaryStage.setTitle("My dictionary");
         primaryStage.setScene(scene1);
         scene1.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
@@ -184,19 +190,18 @@ public class MainPanel extends Application {
         nextBtnP2.getStyleClass().add("btnStyle");
         choiceBoxP2.getStyleClass().add("choiceBoxStyle");
         choiceBoxP4.getStyleClass().add("choiceBoxStyle");
-        classNameP2.getStyleClass().add("txtStyle");
         //Panes
         P1.getStyleClass().add("background");
-        P2.getStyleClass().add("backgroundnew");
+        P2.getStyleClass().add("background");
         P3.getStyleClass().add("background");
         P4.getStyleClass().add("background");
-
+        
         //createClassBtnP1 button on click
         createClassBtnP1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
 
-                Scene scene2 = new Scene(P2, 730, 700);
+                Scene scene2 = new Scene(P2, 740, 500);
                 scene2.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
                 myStage.setScene(scene2);
             }
@@ -206,7 +211,7 @@ public class MainPanel extends Application {
         createObjectBtnP1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                Scene scene3 = new Scene(P4, 730, 700);
+                Scene scene3 = new Scene(P4,  740, 500);
                 scene3.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
                 myStage.setScene(scene3);
                 readFromFile();
@@ -262,7 +267,7 @@ public class MainPanel extends Application {
                         Alert.display("", "Class name already exists ! choose another one");
                         classNameP2.setText("");
                     } else {
-                        Scene scene2 = new Scene(P3, 730, 700);
+                        Scene scene2 = new Scene(P3, 740, 500);
                         scene2.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
                         myStage.setScene(scene2);
 
@@ -293,12 +298,11 @@ public class MainPanel extends Application {
                     gridP3.add(attrtypeP3, 0, 1);
                     gridP3.add(attrNameP3, 1, 1);
                     gridP3.add(attrEqualP3, 2, 1);
-                    if (getNbOfAtt >= 1 && getNbOfAtt <= 10) {
+                    if (getNbOfAtt >= 1 && getNbOfAtt <= 5) {
                         obList2P3.clear();
                         obList2P3.addAll(array2P3);
                         for (int i = 0; i < getNbOfAtt; i++) {
                             ChoiceBox choiceBoxP3 = new ChoiceBox();
-                            choiceBoxP3.getStyleClass().add("choiceBoxStyle");
                             TextField nAttr = new TextField();
                             CheckBox cAttr = new CheckBox();
                             choiceBoxP3.setItems(obList2P3);
@@ -307,18 +311,18 @@ public class MainPanel extends Application {
                             gridP3.add(nAttr, 1, i + 2);
                             gridP3.add(cAttr, 2, i + 2);
                             field.add(new MyField(cAttr, nAttr, choiceBoxP3));
+                            choiceBoxP3.getStyleClass().add("choiceBoxStyle");
                         }
-
                         okBtnP3.setDisable(true);
 
                     } else {//alert
                         //nbAttributes.setVisible(false);
-                        Alert.display("", "Number of attributes should be between 1 & 10");
+                        Alert.display("", "Number of attributes should be between 1 & 5");
                     }
 
                 } catch (NumberFormatException e1) {
                     //alert
-                    Alert.display("", "Please enter an integer between 1 & 10");
+                    Alert.display("", "Please enter an integer between 1 & 5");
                 }
             }
         });
