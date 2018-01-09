@@ -183,7 +183,7 @@ public class MainPanel extends Application {
         okBtnP3.getStyleClass().add("btnStyle");
         nextBtnP2.getStyleClass().add("btnStyle");
         choiceBoxP2.getStyleClass().add("choiceBoxStyle");
-        choiceBoxP4.getStyleClass().add("btnStyle");
+        choiceBoxP4.getStyleClass().add("choiceBoxStyle");
         classNameP2.getStyleClass().add("txtStyle");
         //Panes
         P1.getStyleClass().add("background");
@@ -298,6 +298,7 @@ public class MainPanel extends Application {
                         obList2P3.addAll(array2P3);
                         for (int i = 0; i < getNbOfAtt; i++) {
                             ChoiceBox choiceBoxP3 = new ChoiceBox();
+                            choiceBoxP3.getStyleClass().add("choiceBoxStyle");
                             TextField nAttr = new TextField();
                             CheckBox cAttr = new CheckBox();
                             choiceBoxP3.setItems(obList2P3);
