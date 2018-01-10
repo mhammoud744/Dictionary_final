@@ -37,6 +37,7 @@ public class JavaDynamicClassCreation {
         String constructor="public "+className+"(";
         String constructorBody="{";
         String costructorArguments="";
+        String toStringBody="";
         StringBuilder source = new StringBuilder();
         source.append("package dictionary_master;\n\n");
         //**************//
@@ -55,10 +56,10 @@ public class JavaDynamicClassCreation {
         source.append(constructorBody+"\n\n");
         
      
-        source.append(" public String toString() {\n\n")
-                .append("return \"\";")
-                .append(" }\n\n")
-                .append("@Override\n\n");
+//        source.append(" public String toString() {\n\n")
+//                .append("return "this.)
+//                .append(" }\n\n")
+//                .append("@Override\n\n");
         //////////////  Begin og compare  //////////////////////////////////////////////////
 
         //////////////  Begin og compare  //////////////////////////////////////////////////
@@ -104,7 +105,22 @@ public class JavaDynamicClassCreation {
         source.append("public int toInteger(boolean b){\n\n"
                 + "if(b==true)return 1;\n\n"
                 + "return 0;}\n\n");
-        source.append("}\n\n");
+        
+        
+        
+        source.append("@Override\npublic int hashCode(){\n int hash=0;");
+        String hash="";
+                for (MyField field : fields) {
+                if (!TypeRepository.getRepository().getType(field.attType).equals(TypeRepository.PRIMITIVE) && TypeRepository.getRepository().getType(field.attType) instanceof Comparable) {
+                    hash +=hash+"hash=hash+this."+field.attName+".hashCode();\n";
+                } else {
+                    hash +=hash+"hash=hash+this."+field.attName+";\n";
+                }
+        }
+                source.append(hash+"return hash;\n}\n\n");
+                
+                        source.append("}\n\n");
+
         // A byte array output stream containing the bytes that would be written to the .class file
         final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         final SimpleJavaFileObject simpleJavaFileObject
@@ -134,6 +150,10 @@ public class JavaDynamicClassCreation {
                 e.printStackTrace();
             }
         }
+        /////////////////////////////////////////////hashcode/////////////////////////////////////////////////////
+        
+        
+        
         //        @SuppressWarnings("unchecked")
 //		final JavaFileManager javaFileManager = new ForwardingJavaFileManager(
 //                ToolProvider.getSystemJavaCompiler().getStandardFileManager(null, null, null)) {
