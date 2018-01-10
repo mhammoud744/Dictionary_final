@@ -10,29 +10,31 @@
     -fx-border-style:solid;
 }
 #alert{
+    -fx-font: bold italic 15pt "Comic Sans MS";
     -fx-background-color:#eb43d1;
 }
-.backgroundnew{
-     -fx-font: bold italic 25pt "Comic Sans MS";
-    -fx-background-image:url("flowerwallpaper.jpg");
-}
-.txtStyle{
-    -fx-border-radius: 5px;
-    -fx-border-color: black;
-    -fx-border-width: 2px;
-    -fx-border-style:solid;
-}
+
 .choiceBoxStyle {
-  -fx-background-color:#4cc2a9;
+    -fx-background-color:#4cc2a9;
     -fx-border-radius: 5px;
     -fx-border-color: black;
     -fx-border-width: 2px;
     -fx-border-style:solid;
-  -fx-mark-color: #eb43d1;
+    -fx-mark-color: #eb43d1;
 }
-.choiceBoxStyle > .context-menu {
-    -fx-background-color:#4cc2a9; }
+
+.choiceBoxStyle .menu-item:focused {
+  -fx-background-color: #eb43d1 ; /* for example */
+}
+
+.choiceBoxStyle .context-menu {
+    -fx-background-color:#4cc2a9;
+    -fx-border-radius: 5px;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-border-style:solid;
+    -fx-mark-color: #eb43d1;
+}
 .choiceBoxStyle:active{
-      -fx-background-color:#f580b3;
-    
+    -fx-background-color:orange;
 }
