@@ -34,23 +34,36 @@ public class JavaDynamicClassCreation {
     public void dynamicClassCreation() throws ClassNotFoundException, IllegalAccessException, InstantiationException, URISyntaxException, NoSuchFieldException {
         final String path = "./src/dictionary_master";
         final String fullClassName = path + "/" + className;
+        String constructor="public "+className+"(";
+        String constructorBody="{";
+        String costructorArguments="";
         StringBuilder source = new StringBuilder();
-        source.append("package dictionary_master;\n");
+        source.append("package dictionary_master;\n\n");
         //**************//
-        source.append("public class " + className + " implements Comparable<" + className + ">{\n"); // badna nzeed extends lal class in choiceBox
+        source.append("public class " + className + " implements Comparable<" + className + ">{\n\n"); // badna nzeed extends lal class in choiceBox
         //*************//
         for (MyField field : fields) {
-            source.append(field.attType + " " + field.attName + ";\n");
+            source.append(field.attType + " " + field.attName + ";\n\n");
+            costructorArguments +=field.attType + " " + field.attName+",";
+            constructorBody +="this."+field.attName+"="+field.attName+";\n\n";
         }
-        source.append(" public String toString() {\n")
+       constructorBody +="}\n\n";
+        costructorArguments=costructorArguments.substring(0, costructorArguments.length()-1);
+        source.append(constructor);
+       source.append(costructorArguments+")\n\n");
+       
+        source.append(constructorBody+"\n\n");
+        
+     
+        source.append(" public String toString() {\n\n")
                 .append("return \"\";")
-                .append(" }\n")
-                .append("@Override\n");
+                .append(" }\n\n")
+                .append("@Override\n\n");
         //////////////  Begin og compare  //////////////////////////////////////////////////
 
         //////////////  Begin og compare  //////////////////////////////////////////////////
-        source.append("public int compareTo(" + className + " otherObj){\n");
-        source.append("if(this.equals(otherObj))return 0;\n");
+        source.append("public int compareTo(" + className + " otherObj){\n\n");
+        source.append("if(this.equals(otherObj))return 0;\n\n");
         String s1 = "";
         for (MyField field : fields) {
             if (field.isCompared) {
@@ -63,17 +76,17 @@ public class JavaDynamicClassCreation {
         }
         s1 = s1.substring(0, s1.length() - 1);
         source.append("return " + s1 + ";");
-        source.append("}\n");
-        source.append("@Override\n");
-        source.append("public boolean equals(Object otherObj){\n");
-        source.append(className + " other=(" + className + ")otherObj; \n");
-        source.append("if(this==otherObj){\n");
-        source.append("return true;\n");
-        source.append("}\n");
-        source.append("if(otherObj==null){\n");
-        source.append("return false;\n");
-        source.append("}\n");
-        source.append("if(this.getClass()!=otherObj.getClass())\n return false; \n");
+        source.append("}\n\n");
+        source.append("@Override\n\n");
+        source.append("public boolean equals(Object otherObj){\n\n");
+        source.append(className + " other=(" + className + ")otherObj; \n\n");
+        source.append("if(this==otherObj){\n\n");
+        source.append("return true;\n\n");
+        source.append("}\n\n");
+        source.append("if(otherObj==null){\n\n");
+        source.append("return false;\n\n");
+        source.append("}\n\n");
+        source.append("if(this.getClass()!=otherObj.getClass())\n\n return false; \n\n");
         String s = "";
         for (MyField field : fields) {
             if (field.isCompared) {
@@ -85,13 +98,13 @@ public class JavaDynamicClassCreation {
             }
         }
         s = s.substring(0, s.length() - 3);
-        source.append("return " + s + ";\n");
-        source.append("}\n");
+        source.append("return " + s + ";\n\n");
+        source.append("}\n\n");
         ////////////////////////////////////////////////////////////////////////
-        source.append("public int toInteger(boolean b){\n"
-                + "if(b==true)return 1;\n"
-                + "return 0;}\n");
-        source.append("}\n");
+        source.append("public int toInteger(boolean b){\n\n"
+                + "if(b==true)return 1;\n\n"
+                + "return 0;}\n\n");
+        source.append("}\n\n");
         // A byte array output stream containing the bytes that would be written to the .class file
         final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         final SimpleJavaFileObject simpleJavaFileObject
