@@ -31,6 +31,11 @@ public class ClassLoader {
     }
     
     
+    public Class getLoadedClass(){
+        return cls;
+    }
+    
+    
     public int getNumberOfFields(){
         return nbFields;
     }
