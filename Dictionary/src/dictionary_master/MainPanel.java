@@ -369,24 +369,24 @@ public class MainPanel extends Application {
             public void handle(ActionEvent e) {
                 for (MyField f : (ArrayList<MyField>) field) {
                     f.setAttributes();
-//                    try {
-//                        Class cls=Class.forName("dictionary_master.Code");
-//                        Object obj=cls.getDeclaredConstructor(Integer.class,Integer.class,Integer.class,Integer.class).newInstance(1,2,3,4);
-//                    } catch (ClassNotFoundException ex) {
-//                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-//                    } catch (InstantiationException ex) {
-//                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-//                    } catch (IllegalAccessException ex) {
-//                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-//                    } catch (NoSuchMethodException ex) {
-//                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-//                    } catch (SecurityException ex) {
-//                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-//                    }  catch (IllegalArgumentException ex) {
-//                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-//                    } catch (InvocationTargetException ex) {
-//                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
+                    try {
+                        Class cls=Class.forName("dictionary_master.Code");
+                        Object obj=cls.getDeclaredConstructor(int.class,int.class,int.class,int.class).newInstance(1,2,3,4);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InstantiationException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IllegalAccessException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (NoSuchMethodException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SecurityException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }  catch (IllegalArgumentException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InvocationTargetException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
                     if (!f.attName.isEmpty()) {
                         System.out.println("name " + f.attName + " type " + f.attType + " checked " + f.isCompared);

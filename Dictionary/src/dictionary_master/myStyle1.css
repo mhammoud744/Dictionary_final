@@ -1,5 +1,5 @@
 .background{
-    -fx-font: bold italic 18pt "Comic Sans MS";
+    -fx-font: bold italic 15pt "Comic Sans MS";
     -fx-background-image:url("flowerwallpaper.jpg");
 }
 .btnStyle{
