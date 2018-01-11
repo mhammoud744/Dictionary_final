@@ -335,7 +335,7 @@ public class MainPanel extends Application {
                     f.setAttributes();
                     try {
                         Class cls=Class.forName("dictionary_master.Code");
-                        Object obj=cls.getDeclaredConstructor(Integer.class,Integer.class,Integer.class).newInstance(1,2,3);
+                        Object obj=cls.getConstructor(int.class,int.class,int.class,int.class).newInstance(1,2,3,5);
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (InstantiationException ex) {

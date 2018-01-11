@@ -24,6 +24,10 @@ public class TypeRepository {
 		map.put("double", PRIMITIVE);
 		
 	}
+        
+        private void iniateTypesFromSavedFile(){
+            
+        }
 	
 	
 	
