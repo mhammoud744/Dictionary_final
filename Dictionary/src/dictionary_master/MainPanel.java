@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
@@ -39,8 +40,10 @@ public class MainPanel extends Application {
     int flag = 0;
     int getNbOfAtt;
     String attName;
+    String classConstructor;
     String attType;
     boolean isEqual;
+    String inhClass;
     //TextFields
     TextField classNameP2 = new TextField();
     TextField numOfAttribP3 = new TextField();
@@ -94,7 +97,7 @@ public class MainPanel extends Application {
     Button okBtnP3 = new Button();
     Button createClassBtnP1 = new Button();
     Button createObjectBtnP1 = new Button();
-    Button fillObjAttribP1 = new Button();
+    Button fillObjAttribP4 = new Button();
 
     @Override
     public void start(Stage primaryStage) throws ClassNotFoundException, IllegalAccessException, InstantiationException, URISyntaxException, NoSuchFieldException {
@@ -104,6 +107,7 @@ public class MainPanel extends Application {
         attrEqualP3.setText("Use it for equal method ?");
         attrtypeP3.setText("Type of attribute ");
         attrLabelP3.setText("Nb of attributes : ");
+        finishBtnP4.setDisable(true);
 //        attrtypeP4.setText("Type");
 //        attrLabelP4.setText("Name");
         classLabelP2.setText("Class name : ");
@@ -111,24 +115,26 @@ public class MainPanel extends Application {
         nextBtnP2.setText("Next");
         okBtnP3.setText("Ok");
         finishBtnP3.setText("Finish");
+        finishBtnP4.setText("Finish");
         createClassBtnP1.setText("Create your own class");
         createObjectBtnP1.setText("   Create an object  ");
-        fillObjAttribP1.setText("Fill the attributes");
+        fillObjAttribP4.setText("Fill the attributes");
         //Hbox and Vbox
         hbox2P3.getChildren().add(finishBtnP3);
         hboxP4.getChildren().add(objTypeP4);
         hboxP4.getChildren().add(choiceBoxP4);
-        hboxP4.getChildren().add(fillObjAttribP1);
+        hboxP4.getChildren().add(fillObjAttribP4);
         hbox2P3.setId("hid");
-       // vboxP1.getChildren().add(createClassBtnP1);
-       // vboxP1.getChildren().add(createObjectBtnP1);
+        // vboxP1.getChildren().add(createClassBtnP1);
+        // vboxP1.getChildren().add(createObjectBtnP1);
         vboxP2.getChildren().add(hbox1P2);
         vboxP2.getChildren().add(hbox2P2);
         vboxP2.setId("vboxP2");
         hbox1P2.setId("hboxPadding");
         hbox3P2.getChildren().add(nextBtnP2);
+        hboxP4.setPadding(new Insets(20, 20, 20, 20));
         //ObservableLists and Lists
-        readFromFile();
+        FileOperations.readFromFile(classArrListP4);
         array1P3.add("None");
         array1P3.addAll(classArrListP4);
         array2P3.add("int");
@@ -157,8 +163,8 @@ public class MainPanel extends Application {
         gridP2.add(classNameP2, 1, 0);
         gridP2.add(choiceBoxP2, 1, 1);
         /////////////////////////
-        gridP1.add(createClassBtnP1, 7,4);
-        gridP1.add(createObjectBtnP1, 7,6);
+        gridP1.add(createClassBtnP1, 7, 4);
+        gridP1.add(createObjectBtnP1, 7, 6);
         gridP3.add(attrLabelP3, 0, 0);
         gridP3.add(numOfAttribP3, 1, 0);
         gridP3.add(okBtnP3, 2, 0);
@@ -190,12 +196,14 @@ public class MainPanel extends Application {
         nextBtnP2.getStyleClass().add("btnStyle");
         choiceBoxP2.getStyleClass().add("choiceBoxStyle");
         choiceBoxP4.getStyleClass().add("choiceBoxStyle");
+        finishBtnP4.getStyleClass().add("btnStyle");
+        fillObjAttribP4.getStyleClass().add("btnStyle");
         //Panes
         P1.getStyleClass().add("background");
         P2.getStyleClass().add("background");
         P3.getStyleClass().add("background");
         P4.getStyleClass().add("background");
-        
+
         //createClassBtnP1 button on click
         createClassBtnP1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -211,10 +219,10 @@ public class MainPanel extends Application {
         createObjectBtnP1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                Scene scene3 = new Scene(P4,  740, 500);
+                Scene scene3 = new Scene(P4, 740, 500);
                 scene3.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
                 myStage.setScene(scene3);
-                readFromFile();
+                FileOperations.readFromFile(classArrListP4);
                 classObListP4.addAll(array1P3);
                 choiceBoxP4.getSelectionModel().selectFirst();
                 choiceBoxP4.setItems(classObListP4);
@@ -227,32 +235,58 @@ public class MainPanel extends Application {
             @Override
             public void handle(ActionEvent e) {
                 System.out.println("attributes are saved");
+                for (MyField f : (ArrayList<MyField>) field) {
+                    if (!f.attValue.isEmpty()) {
+                        Alert.display("", "Please fill the Value of attributes");
+                    } else {
+                        System.out.println("zabateeeeeeet" + f.attValue);
+                        classConstructor = choiceBoxP4.getValue().toString();
+                        Class c = null;
+                        try {
+                            c = Class.forName("dictionary_master." + classConstructor);//package.esemlclass
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        ArrayList<Class> objAttributesp4 = new ArrayList<Class>();
+                        Field[] f2 = c.getFields();//get fields of class
+                        for (Field element : f2) {
+                            System.out.println(element.getType());
+                            objAttributesp4.add(element.getType());
+                        }
+                        Constructor<?> cons;
+
+                        try {
+                            cons = c.getConstructor((Class[]) objAttributesp4.toArray());
+                        } catch (NoSuchMethodException ex) {
+                            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (SecurityException ex) {
+                            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        //constructor bdo bs l values ka Array of objects
+                        //y3ni eza int 55  bdo ykon Object o=new Ineteger(55);
+                    }
+                }
             }
         });
-        
-        //fillObjAttribP1 button on click
-        fillObjAttribP1.setOnAction(new EventHandler<ActionEvent>() {
+
+        //fillObjAttribP4 button on click
+        fillObjAttribP4.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                //   P4.setCenter();
-
-//                getNbOfAtt = Integer.parseInt(numOfAttribP3.getText());
-//                gridP4.add(attrtypeP4, 0, 1);
-//                gridP4.add(attrNameP4, 1, 1);
-//                gridP4.add(attrEqualP3, 2, 1);
                 System.out.println("gdg " + choiceBoxP4.getValue());
-                readCreatedFile(choiceBoxP4.getValue().toString());
-                for (int i = 0,j=0;i<createObjArrListP4.size();i=i+2,j++) {
+                FileOperations.readCreatedFile(choiceBoxP4.getValue().toString(),createObjArrListP4);
+                for (int i = 0, j = 0; i < createObjArrListP4.size(); i = i + 2, j++) {
                     TextField nAttr = new TextField();
                     Label type = new Label();
                     Label name = new Label();
                     type.setText(createObjArrListP4.get(i).toString());
-                    name.setText(createObjArrListP4.get(i+1).toString());
+                    name.setText(createObjArrListP4.get(i + 1).toString());
                     gridP4.add(type, 0, j + 2);
                     gridP4.add(name, 1, j + 2);
                     gridP4.add(nAttr, 2, j + 2);
                     field.add(new MyField(type, name, nAttr));
                 }
+                finishBtnP4.setDisable(false);
             }
         });
 
@@ -263,7 +297,7 @@ public class MainPanel extends Application {
                 String txt = classNameP2.getText();
 
                 if (txt.matches("^[A-Z].*$") && !txt.contains(" ")) {
-                    if (searchFile(txt)) {
+                    if (FileOperations.searchFile(txt)) {
                         Alert.display("", "Class name already exists ! choose another one");
                         classNameP2.setText("");
                     } else {
@@ -273,7 +307,9 @@ public class MainPanel extends Application {
 
                         if (!array1P3.contains(classNameP2.getText())) {
                             array1P3.add(classNameP2.getText());
-                            writeToFile(classNameP2.getText());
+                            FileOperations.writeToFile(classNameP2.getText());
+                            inhClass = choiceBoxP2.getValue().toString();
+                            System.out.println(inhClass);
                             obList1P3.clear();
                             obList1P3.addAll(array1P3);
                             choiceBoxP2.getSelectionModel().selectFirst();
@@ -333,24 +369,24 @@ public class MainPanel extends Application {
             public void handle(ActionEvent e) {
                 for (MyField f : (ArrayList<MyField>) field) {
                     f.setAttributes();
-                    try {
-                        Class cls=Class.forName("dictionary_master.Code");
-                        Object obj=cls.getDeclaredConstructor(Integer.class,Integer.class,Integer.class).newInstance(1,2,3);
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InstantiationException ex) {
-                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IllegalAccessException ex) {
-                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (NoSuchMethodException ex) {
-                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SecurityException ex) {
-                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }  catch (IllegalArgumentException ex) {
-                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InvocationTargetException ex) {
-                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+//                    try {
+//                        Class cls=Class.forName("dictionary_master.Code");
+//                        Object obj=cls.getDeclaredConstructor(Integer.class,Integer.class,Integer.class,Integer.class).newInstance(1,2,3,4);
+//                    } catch (ClassNotFoundException ex) {
+//                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+//                    } catch (InstantiationException ex) {
+//                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+//                    } catch (IllegalAccessException ex) {
+//                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+//                    } catch (NoSuchMethodException ex) {
+//                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+//                    } catch (SecurityException ex) {
+//                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+//                    }  catch (IllegalArgumentException ex) {
+//                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+//                    } catch (InvocationTargetException ex) {
+//                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
 
                     if (!f.attName.isEmpty()) {
                         System.out.println("name " + f.attName + " type " + f.attType + " checked " + f.isCompared);
@@ -361,9 +397,9 @@ public class MainPanel extends Application {
                     }
                 }
                 if (flag == 1) {
-                    System.out.println("flag = " + flag);
+                    System.out.println("flag = " + flag+" "+inhClass);
                     try {
-                        new JavaDynamicClassCreation(classNameP2.getText(), field).dynamicClassCreation();
+                        new JavaDynamicClassCreation(classNameP2.getText(), field,inhClass).dynamicClassCreation();
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (IllegalAccessException ex) {
@@ -378,7 +414,7 @@ public class MainPanel extends Application {
 
                 }
                 try {
-                    createFile(field, classNameP2.getText());
+                    FileOperations.createFile(field, classNameP2.getText());
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -388,74 +424,6 @@ public class MainPanel extends Application {
         primaryStage.show();
     }
 
-    public List readFromFile() {
-        File file = new File("./src/dictionary_master/classes.txt");
-        Scanner readfile = null;
-        try {
-            readfile = new Scanner(file);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        while (readfile.hasNext()) {
-            String str = readfile.nextLine();
-            classArrListP4.add(str);
-        }
-        readfile.close();
-        return classArrListP4;
-    }
-
-    public boolean searchFile(String s) {
-        List<String> searchList = readFromFile();
-        for (String temp : searchList) {
-            if (temp.equals(s)) {
-                System.out.println("class name exists");
-                return true;
-
-            }
-        }
-        return false;
-    }
-
-    public void writeToFile(String s) {
-        FileWriter classesFile = null;
-        try {
-            classesFile = new FileWriter("./src/dictionary_master/classes.txt", true);
-        } catch (IOException ex) {
-            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        BufferedWriter bf = new BufferedWriter(classesFile);
-        PrintWriter pw = new PrintWriter(bf);
-        pw.println(s);
-        pw.close();
-    }
-
-    public void createFile(ArrayList<MyField> attributes, String filename) throws FileNotFoundException {
-        //FileWriter classFile = null;
-        String path = "./src/dictionary_master/fileFolder/" + filename + ".txt";
-        PrintWriter pw = new PrintWriter(path);
-        for (MyField f : attributes) {
-            pw.println(f.attType);
-            pw.println(f.attName);
-        }
-        pw.close();
-    }
-     
-    public List readCreatedFile(String filename) {
-         String path = "./src/dictionary_master/fileFolder/" + filename + ".txt";
-        File file = new File(path);
-        Scanner readfile = null;
-        try {
-            readfile = new Scanner(file);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        while (readfile.hasNext()) {
-            String str = readfile.nextLine();
-            createObjArrListP4.add(str);
-        }
-        readfile.close();
-        return createObjArrListP4;
-    }
 
     public static void main(String[] args) {
         launch(args);
