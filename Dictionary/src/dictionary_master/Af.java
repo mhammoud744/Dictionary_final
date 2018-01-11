@@ -1,27 +1,62 @@
 package dictionary_master;
-public class Z implements Comparable<Z>{
-int a;
-double b;
+
+public class Af implements Comparable<Af>{
+
+int g;
+
+public Af(int g)
+
+{
+
+this.g=g;
+
+}
+
+
+
  public String toString() {
-return "HelloWorld - Java Dynamic Class Creation was written by Rob Austin"; }
+
+return ""; }
+
 @Override
-public int compareTo(Z otherObj){
+
+public int compareTo(Af otherObj){
+
 if(this.equals(otherObj))return 0;
-return toInteger(a<otherObj.a)+toInteger(b<otherObj.b);}
+
+return toInteger(g<otherObj.g);}
+
 @Override
+
 public boolean equals(Object otherObj){
-Z other=(Z)otherObj; 
+
+Af other=(Af)otherObj; 
+
 if(this==otherObj){
+
 return true;
+
 }
+
 if(otherObj==null){
+
 return false;
+
 }
+
 if(this.getClass()!=otherObj.getClass())
+
  return false; 
-return a==other.a &&b==other.b;
+
+return g==other.g;
+
 }
+
 public int toInteger(boolean b){
+
 if(b==true)return 1;
+
 return 0;}
+
 }
+

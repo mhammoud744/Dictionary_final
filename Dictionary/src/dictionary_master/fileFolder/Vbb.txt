@@ -1,8 +1,0 @@
-int
-x
-double
-y
-String
-name
-String
-h
