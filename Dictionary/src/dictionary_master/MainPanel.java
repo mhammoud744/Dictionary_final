@@ -100,7 +100,7 @@ public class MainPanel extends Application {
     Button fillObjAttribP4 = new Button();
 
     @Override
-    public void start(Stage primaryStage) throws ClassNotFoundException, IllegalAccessException, InstantiationException, URISyntaxException, NoSuchFieldException {
+    public void start(Stage primaryStage) throws ClassNotFoundException, IllegalAccessException, InstantiationException, URISyntaxException, NoSuchFieldException, NoSuchMethodException, InvocationTargetException {
         //Labels , TextBoxes , Buttons
         objTypeP4.setText("Object type : ");
         attrNameP3.setText("Name of attribute");
@@ -188,7 +188,9 @@ public class MainPanel extends Application {
         scene1.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
      try {
                         Class cls=Class.forName("dictionary_master.Code");
-                        Object obj=cls.getConstructor(int.class,int.class,int.class,int.class).newInstance(1,2,3,4);
+                        Object obj=cls.getConstructor(int.class,int.class,int.class).newInstance(1,2,3);
+                        ClassLoader classLoader=new ClassLoader("Code");
+                        classLoader.createInstance(1,2,3);
                         System.out.println(cls.getDeclaredFields().length+" is the length");
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
