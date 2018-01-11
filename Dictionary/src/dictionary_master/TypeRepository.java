@@ -25,7 +25,7 @@ public class TypeRepository {
 		
 	}
         
-        private void iniateTypesFromSavedFile(){
+        private void loadFromFiles(){
             
         }
 	

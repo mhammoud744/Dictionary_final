@@ -1,14 +1,14 @@
 package dictionary_master;
 
-public class Af implements Comparable<Af>{
+public class We extends Ad implements Comparable<Ad>{
 
-int g;
+int e;
 
-public Af(int g)
-
+public We(int e)
 {
 
-this.g=g;
+super(e);
+this.e=e;
 
 }
 
@@ -20,17 +20,19 @@ return ""; }
 
 @Override
 
-public int compareTo(Af otherObj){
+public int compareTo(Ad otherObj){
 
-if(this.equals(otherObj))return 0;
+We other = (We) otherObj;
 
-return toInteger(g<otherObj.g);}
+if(this.equals(other))return 0;
+
+return toInteger(e<other.e);}
 
 @Override
 
 public boolean equals(Object otherObj){
 
-Af other=(Af)otherObj; 
+We other=(We)otherObj; 
 
 if(this==otherObj){
 
@@ -48,7 +50,7 @@ if(this.getClass()!=otherObj.getClass())
 
  return false; 
 
-return g==other.g;
+return e==other.e;
 
 }
 

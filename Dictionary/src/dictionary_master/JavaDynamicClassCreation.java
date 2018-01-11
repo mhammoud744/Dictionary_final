@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import javax.tools.SimpleJavaFileObject;
 
 /**
- * by Rob Austin date Feb 1013
+ * created By the errors
  */
 public class JavaDynamicClassCreation {
 
@@ -39,14 +40,23 @@ public class JavaDynamicClassCreation {
         String constructor = "public " + className + "(";
         String constructorBody = "{\n\n";
         String costructorArguments = "";
+       
         StringBuilder source = new StringBuilder();
         source.append("package dictionary_master;\n\n");
         //**************//
-        if (inhClass != "None") {
+        if (!inhClass.equals("None")) {
+            String superArguments="";
+            Field[] parentConstructorArgumets=Class.forName("dictionary_master."+inhClass).getDeclaredFields();
+            System.out.println(parentConstructorArgumets.length+" is the length of the parents fields which is "+Class.forName("dictionary_master."+inhClass).getName());
+            for(Field f:parentConstructorArgumets){
+                superArguments +=f.getName()+",";
+                costructorArguments +=f.getType()+" "+f.getName()+",";
+            }
+            superArguments +="";
             source.append("public class " + className + " extends " + inhClass + " implements Comparable<" + inhClass + ">{\n\n"); // badna nzeed extends lal class in choiceBox
-            constructorBody += "super(n);\n\n";
             // Class inhClass=null;
             //inhClass.getFields();
+            constructorBody +="super("+superArguments.substring(0,superArguments.length()-1)+");";
             for (MyField field : fields) {
                 source.append(field.attType + " " + field.attName + ";\n\n");
                 costructorArguments += field.attType + " " + field.attName + ",";
@@ -106,35 +116,7 @@ public class JavaDynamicClassCreation {
                     + "if(b==true)return 1;\n\n"
                     + "return 0;}\n\n");
             source.append("}\n\n");
-            // A byte array output stream containing the bytes that would be written to the .class file
-            final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            final SimpleJavaFileObject simpleJavaFileObject
-                    = new SimpleJavaFileObject(URI.create(fullClassName + ".java"), SOURCE) {
-                @Override
-                public CharSequence getCharContent(boolean ignoreEncodingErrors) {
-                    return "";
-                }
-
-                @Override
-                public OutputStream openOutputStream() throws IOException {
-                    return byteArrayOutputStream;
-                }
-            };
-            File file = new File(fullClassName + ".java");
-            FileWriter fr = null;
-            try {
-                fr = new FileWriter(file);
-                fr.write(source.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                //close resources
-                try {
-                    fr.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+   
         } else {
             source.append("public class " + className + " implements Comparable<" + className + ">{\n\n"); // badna nzeed extends lal class in choiceBox
             //*************//
@@ -199,22 +181,24 @@ public class JavaDynamicClassCreation {
             source.append("public int toInteger(boolean b){\n\n"
                     + "if(b==true)return 1;\n\n"
                     + "return 0;}\n\n");
+            
+            
+                source.append("@Override\npublic int hashCode(){\n int hash=0;\n");
+        String hash="";
+                for (MyField field : fields) {
+                if (!TypeRepository.getRepository().getType(field.attType).equals(TypeRepository.PRIMITIVE) && TypeRepository.getRepository().getType(field.attType) instanceof Comparable) {
+                    hash +=hash+"hash=hash+this."+field.attName+".hashCode();\n";
+                } else {
+                    hash +=hash+"hash=hash+this."+field.attName+";\n";
+                }
+        }
+                source.append(hash+"return hash;\n}\n\n");
+                
             source.append("}\n\n");
-            // A byte array output stream containing the bytes that would be written to the .class file
-            final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            final SimpleJavaFileObject simpleJavaFileObject
-                    = new SimpleJavaFileObject(URI.create(fullClassName + ".java"), SOURCE) {
-                @Override
-                public CharSequence getCharContent(boolean ignoreEncodingErrors) {
-                    return "";
-                }
-
-                @Override
-                public OutputStream openOutputStream() throws IOException {
-                    return byteArrayOutputStream;
-                }
-            };
-            File file = new File(fullClassName + ".java");
+        
+        }
+        
+                 File file = new File(fullClassName + ".java");
             FileWriter fr = null;
             try {
                 fr = new FileWriter(file);
@@ -229,7 +213,22 @@ public class JavaDynamicClassCreation {
                     e.printStackTrace();
                 }
             }
-        }
+            
+            
+                // A byte array output stream containing the bytes that would be written to the .class file
+            final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            final SimpleJavaFileObject simpleJavaFileObject
+                    = new SimpleJavaFileObject(URI.create(fullClassName + ".java"), SOURCE) {
+                @Override
+                public CharSequence getCharContent(boolean ignoreEncodingErrors) {
+                    return "";
+                }
+
+                @Override
+                public OutputStream openOutputStream() throws IOException {
+                    return byteArrayOutputStream;
+                }
+            };
 
     }
 
