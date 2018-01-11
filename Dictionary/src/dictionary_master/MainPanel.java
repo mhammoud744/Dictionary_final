@@ -48,6 +48,8 @@ public class MainPanel extends Application {
     TextField classNameP2 = new TextField();
     TextField numOfAttribP3 = new TextField();
     //Labels
+    Label compareResultP5 = new Label();
+    Label compareLabelP5 = new Label();
     Label attrLabelP3 = new Label();
     Label attrLabelP4 = new Label();
     Label attrtypeP4 = new Label();
@@ -60,15 +62,19 @@ public class MainPanel extends Application {
     //ChoiceBoxes
     ChoiceBox choiceBoxP4 = new ChoiceBox();
     ChoiceBox choiceBoxP2 = new ChoiceBox();
+    ChoiceBox choiceBox1P5 = new ChoiceBox();
+    ChoiceBox choiceBox2P5 = new ChoiceBox();
     //Panes gridPane.add(btn,column,row)
     BorderPane P3 = new BorderPane();
     BorderPane P1 = new BorderPane();
     BorderPane P4 = new BorderPane();
     BorderPane P2 = new BorderPane();
+    BorderPane P5 = new BorderPane();
     GridPane gridP1 = new GridPane();
     GridPane gridP3 = new GridPane();
     GridPane gridP2 = new GridPane();
     GridPane gridP4 = new GridPane();
+    GridPane gridP5 = new GridPane();
     //Stage
     Stage myStage;
     //ObservableLists and Lists
@@ -80,6 +86,7 @@ public class MainPanel extends Application {
     ObservableList<String> obList1P3 = FXCollections.observableArrayList();
     ObservableList<String> obList2P3 = FXCollections.observableArrayList();
     ObservableList<String> classObListP4 = FXCollections.observableArrayList();
+    ObservableList<String> compareObListP5 = FXCollections.observableArrayList();
     //HBox and Vbox
     HBox attrHbox = new HBox();
     HBox hbox1P3 = new HBox();
@@ -97,18 +104,26 @@ public class MainPanel extends Application {
     Button okBtnP3 = new Button();
     Button createClassBtnP1 = new Button();
     Button createObjectBtnP1 = new Button();
+    Button compareObjectsBtnP1 = new Button();
     Button fillObjAttribP4 = new Button();
+    Button compareBtnP5 = new Button();
+    Button createObjP3 = new Button();
+    Button compareObjP3 = new Button();
 
     @Override
     public void start(Stage primaryStage) throws ClassNotFoundException, IllegalAccessException, InstantiationException, URISyntaxException, NoSuchFieldException {
         //Labels , TextBoxes , Buttons
+        createObjP3.setText("Create Object");
+        compareObjP3.setText("Compare Objects");
+        compareResultP5.setText("fadye");
+        compareLabelP5.setText("Choose 2 objects to compare them :");
+        compareBtnP5.setText("Compare now");
         objTypeP4.setText("Object type : ");
         attrNameP3.setText("Name of attribute");
         attrEqualP3.setText("Use it for equal method ?");
         attrtypeP3.setText("Type of attribute ");
         attrLabelP3.setText("Nb of attributes : ");
         finishBtnP4.setDisable(true);
-//        attrtypeP4.setText("Type");
 //        attrLabelP4.setText("Name");
         classLabelP2.setText("Class name : ");
         inheritsLabelP2.setText("Inherits : ");
@@ -118,9 +133,13 @@ public class MainPanel extends Application {
         finishBtnP4.setText("Finish");
         createClassBtnP1.setText("Create your own class");
         createObjectBtnP1.setText("   Create an object  ");
+        compareObjectsBtnP1.setText("  Compare 2 objects  ");
         fillObjAttribP4.setText("Fill the attributes");
         //Hbox and Vbox
         hbox2P3.getChildren().add(finishBtnP3);
+              hbox2P3.getChildren().add(createObjP3);
+        hbox2P3.getChildren().add(compareObjP3);
+
         hboxP4.getChildren().add(objTypeP4);
         hboxP4.getChildren().add(choiceBoxP4);
         hboxP4.getChildren().add(fillObjAttribP4);
@@ -158,13 +177,16 @@ public class MainPanel extends Application {
         P2.setPadding(new Insets(20, 20, 20, 20));
         P2.setCenter(gridP2);
         P2.setBottom(hbox3P2);
+        P5.setCenter(gridP5);
+        P5.setPadding(new Insets(20, 20, 20, 125));
         gridP2.add(classLabelP2, 0, 0);
         gridP2.add(inheritsLabelP2, 0, 1);
         gridP2.add(classNameP2, 1, 0);
         gridP2.add(choiceBoxP2, 1, 1);
         /////////////////////////
-        gridP1.add(createClassBtnP1, 7, 4);
-        gridP1.add(createObjectBtnP1, 7, 6);
+        gridP1.add(createClassBtnP1, 7, 3);
+        gridP1.add(createObjectBtnP1, 7, 5);
+        gridP1.add(compareObjectsBtnP1, 7, 4);
         gridP3.add(attrLabelP3, 0, 0);
         gridP3.add(numOfAttribP3, 1, 0);
         gridP3.add(okBtnP3, 2, 0);
@@ -180,6 +202,14 @@ public class MainPanel extends Application {
         gridP1.setHgap(30);
         gridP1.setVgap(30);
         gridP2.setPadding(new Insets(20, 20, 20, 20));
+        gridP5.add(compareLabelP5, 0, 0);
+        gridP5.add(choiceBox1P5, 0, 3);
+        gridP5.add(choiceBox2P5, 1, 3);
+        gridP5.add(compareBtnP5, 0, 30);
+        gridP5.add(compareResultP5, 1, 30);
+        gridP5.setHgap(10);
+        gridP5.setVgap(10);
+        gridP5.setPadding(new Insets(20, 20, 20, 20));
         //Stage and Scene
         myStage = primaryStage;
         Scene scene1 = new Scene(P1, 740, 500);
@@ -196,13 +226,18 @@ public class MainPanel extends Application {
         nextBtnP2.getStyleClass().add("btnStyle");
         choiceBoxP2.getStyleClass().add("choiceBoxStyle");
         choiceBoxP4.getStyleClass().add("choiceBoxStyle");
+        choiceBox1P5.getStyleClass().add("choiceBoxStyle");
+        choiceBox2P5.getStyleClass().add("choiceBoxStyle");
         finishBtnP4.getStyleClass().add("btnStyle");
         fillObjAttribP4.getStyleClass().add("btnStyle");
+        compareObjectsBtnP1.getStyleClass().add("btnStyle");
+        compareBtnP5.getStyleClass().add("btnStyle");
         //Panes
         P1.getStyleClass().add("background");
         P2.getStyleClass().add("background");
         P3.getStyleClass().add("background");
         P4.getStyleClass().add("background");
+        P5.getStyleClass().add("background");
 
         //createClassBtnP1 button on click
         createClassBtnP1.setOnAction(new EventHandler<ActionEvent>() {
@@ -228,6 +263,39 @@ public class MainPanel extends Application {
                 choiceBoxP4.setItems(classObListP4);
                 System.out.println("this is all");
             }
+        });
+
+        //compareObjectsBtnP1 button on click
+        compareObjectsBtnP1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+
+                Scene scene2 = new Scene(P5, 740, 500);
+                scene2.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
+                myStage.setScene(scene2);
+                compareObListP5.addAll(obList1P3);
+                compareObListP5.remove("None");
+                System.out.println(compareObListP5);
+                choiceBox1P5.setItems(compareObListP5);
+                choiceBox1P5.getStyleClass().add("choiceBoxStyle");
+                choiceBox2P5.setItems(compareObListP5);
+                choiceBox2P5.getStyleClass().add("choiceBoxStyle");
+            }
+
+        });
+
+        //compareBtnP5 button on click
+        compareBtnP5.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                System.out.println(choiceBox1P5.getValue().toString());
+                System.out.println(choiceBox2P5.getValue().toString());
+                //c1=choiceBox1P5.getValue().toString();
+                //c2=choiceBox2P5.getValue().toString();
+                //if c1 not super of c2 and c2 not super of c1 --> alert
+                //else c1.compare(c2);
+            }
+
         });
 
         //finishBtnP4 button on click
@@ -274,7 +342,7 @@ public class MainPanel extends Application {
             @Override
             public void handle(ActionEvent e) {
                 System.out.println("gdg " + choiceBoxP4.getValue());
-                FileOperations.readCreatedFile(choiceBoxP4.getValue().toString(),createObjArrListP4);
+                FileOperations.readCreatedFile(choiceBoxP4.getValue().toString(), createObjArrListP4);
                 for (int i = 0, j = 0; i < createObjArrListP4.size(); i = i + 2, j++) {
                     TextField nAttr = new TextField();
                     Label type = new Label();
@@ -370,8 +438,8 @@ public class MainPanel extends Application {
                 for (MyField f : (ArrayList<MyField>) field) {
                     f.setAttributes();
                     try {
-                        Class cls=Class.forName("dictionary_master.Code");
-                        Object obj=cls.getDeclaredConstructor(int.class,int.class,int.class,int.class).newInstance(1,2,3,4);
+                        Class cls = Class.forName("dictionary_master.Code");
+                        Object obj = cls.getDeclaredConstructor(int.class, int.class, int.class, int.class).newInstance(1, 2, 3, 4);
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (InstantiationException ex) {
@@ -382,7 +450,7 @@ public class MainPanel extends Application {
                         Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (SecurityException ex) {
                         Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }  catch (IllegalArgumentException ex) {
+                    } catch (IllegalArgumentException ex) {
                         Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (InvocationTargetException ex) {
                         Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -397,9 +465,9 @@ public class MainPanel extends Application {
                     }
                 }
                 if (flag == 1) {
-                    System.out.println("flag = " + flag+" "+inhClass);
+                    System.out.println("flag = " + flag + " " + inhClass);
                     try {
-                        new JavaDynamicClassCreation(classNameP2.getText(), field,inhClass).dynamicClassCreation();
+                        new JavaDynamicClassCreation(classNameP2.getText(), field, inhClass).dynamicClassCreation();
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (IllegalAccessException ex) {
@@ -423,7 +491,6 @@ public class MainPanel extends Application {
 
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);
