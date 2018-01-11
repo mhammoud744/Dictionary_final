@@ -71,7 +71,7 @@ public class FileOperations {
         String path = "./src/dictionary_master/fileFolder/" + filename + ".txt";
         PrintWriter pw = new PrintWriter(path);
         for (MyField f : attributes) {
-            pw.print(f.attType);
+            pw.print(f.attType +" ");
             pw.println(f.attName);
             
         }
