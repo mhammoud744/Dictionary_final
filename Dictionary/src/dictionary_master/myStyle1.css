@@ -1,6 +1,6 @@
 .background{
-    -fx-font: bold italic 15pt "Comic Sans MS";
-    -fx-background-image:url("flowerwallpaper.jpg");
+    -fx-font: bold italic 14pt "Comic Sans MS";
+    -fx-background-image:url("wallpaper.jpg");
 }
 .btnStyle{
     -fx-background-color:#4cc2a9;

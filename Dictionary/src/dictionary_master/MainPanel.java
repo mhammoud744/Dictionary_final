@@ -119,12 +119,16 @@ public class MainPanel extends Application {
         compareLabelP5.setText("Choose 2 objects to compare them :");
         compareBtnP5.setText("Compare now");
         objTypeP4.setText("Object type : ");
-        attrNameP3.setText("Name of attribute");
-        attrEqualP3.setText("Use it for equal method ?");
-        attrtypeP3.setText("Type of attribute ");
-        attrLabelP3.setText("Nb of attributes : ");
+        attrNameP3.setText("Attribute name");
+        attrEqualP3.setText("Check for equal method");
+        attrtypeP3.setText("Attribute type");
+            attrLabelP3.setText("                ");
         finishBtnP4.setDisable(true);
 //        attrLabelP4.setText("Name");
+
+       numOfAttribP3.setFocusTraversable(false);
+        numOfAttribP3.setPromptText("Number of attributes");
+        
         classLabelP2.setText("Class name : ");
         inheritsLabelP2.setText("Inherits : ");
         nextBtnP2.setText("Next");
@@ -179,10 +183,10 @@ public class MainPanel extends Application {
         P2.setBottom(hbox3P2);
         P5.setCenter(gridP5);
         P5.setPadding(new Insets(20, 20, 20, 125));
-        gridP2.add(classLabelP2, 0, 0);
-        gridP2.add(inheritsLabelP2, 0, 1);
-        gridP2.add(classNameP2, 1, 0);
-        gridP2.add(choiceBoxP2, 1, 1);
+        gridP2.add(classLabelP2, 4, 4);
+        gridP2.add(classNameP2, 5,4);
+        gridP2.add(inheritsLabelP2,4, 6);
+        gridP2.add(choiceBoxP2, 5, 6);
         /////////////////////////
         gridP1.add(createClassBtnP1, 7, 3);
         gridP1.add(createObjectBtnP1, 7, 5);
@@ -190,8 +194,8 @@ public class MainPanel extends Application {
         gridP3.add(attrLabelP3, 0, 0);
         gridP3.add(numOfAttribP3, 1, 0);
         gridP3.add(okBtnP3, 2, 0);
-        gridP3.setHgap(20);
-        gridP3.setVgap(20);
+        gridP3.setHgap(10);
+        gridP3.setVgap(10);
         gridP1.setPadding(new Insets(30, 30, 30, 30));
         gridP3.setPadding(new Insets(10, 10, 10, 10));
         gridP2.setHgap(30);
@@ -213,7 +217,7 @@ public class MainPanel extends Application {
         //Stage and Scene
         myStage = primaryStage;
         Scene scene1 = new Scene(P1, 740, 500);
-        primaryStage.setTitle("My dictionary");
+        primaryStage.setTitle("Netbeans");
         primaryStage.setScene(scene1);
         scene1.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
 
@@ -232,6 +236,9 @@ public class MainPanel extends Application {
         fillObjAttribP4.getStyleClass().add("btnStyle");
         compareObjectsBtnP1.getStyleClass().add("btnStyle");
         compareBtnP5.getStyleClass().add("btnStyle");
+        createObjP3.getStyleClass().add("btnStyle");
+                compareObjP3.getStyleClass().add("btnStyle");
+                classNameP2.setPrefWidth(100);
         //Panes
         P1.getStyleClass().add("background");
         P2.getStyleClass().add("background");
@@ -245,6 +252,28 @@ public class MainPanel extends Application {
             public void handle(ActionEvent e) {
 
                 Scene scene2 = new Scene(P2, 740, 500);
+                scene2.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
+                myStage.setScene(scene2);
+            }
+        });
+        
+        //createObjP3 button on click
+        createObjP3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+
+                Scene scene2 = new Scene(P4, 740, 500);
+                scene2.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
+                myStage.setScene(scene2);
+            }
+        });
+        
+        //compareObjP3 button on click
+        compareObjP3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+
+                Scene scene2 = new Scene(P5, 740, 500);
                 scene2.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
                 myStage.setScene(scene2);
             }
