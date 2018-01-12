@@ -216,7 +216,7 @@ public class MainPanel extends Application {
         primaryStage.setTitle("My dictionary");
         primaryStage.setScene(scene1);
         scene1.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
-        
+        System.out.println("Grand parent is "+ClassLoader.getTheGrandParentName(ClassLoader.loadClass("dictionary_master", "Mnb")));
         //Set Classes and Id's for style sheet design
         //Buttons and textfields
         createClassBtnP1.getStyleClass().add("btnStyle");

@@ -46,16 +46,17 @@ public class JavaDynamicClassCreation {
         //**************//
         if (!inhClass.equals("None")) {
             String superArguments="";
-            Field[] parentConstructorArgumets=Class.forName("dictionary_master."+inhClass).getDeclaredFields();
-            System.out.println(parentConstructorArgumets.length+" is the length of the parents fields which is "+Class.forName("dictionary_master."+inhClass).getName());
+            ClassLoader parentClassLoader=new ClassLoader(inhClass);
+            Field[] parentConstructorArgumets=parentClassLoader.getAllFields();
             for(Field f:parentConstructorArgumets){
                 superArguments +=f.getName()+",";
                 costructorArguments +=f.getType()+" "+f.getName()+",";
             }
             superArguments +="";
-            source.append("public class " + className + " extends " + inhClass + " implements Comparable<" + inhClass + ">{\n\n"); // badna nzeed extends lal class in choiceBox
+            source.append("public class " + className + " extends " + inhClass + " implements Comparable<" + ClassLoader.getTheGrandParentName(parentClassLoader.getLoadedClass()) + ">{\n\n"); // badna nzeed extends lal class in choiceBox
             // Class inhClass=null;
             //inhClass.getFields();
+           
             constructorBody +="super("+superArguments.substring(0,superArguments.length()-1)+");";
             for (MyField field : fields) {
                 source.append(field.attType + " " + field.attName + ";\n\n");
@@ -72,14 +73,14 @@ public class JavaDynamicClassCreation {
             //////////////  Begin of compare  //////////////////////////////////////////////////
 
             //////////////  Begin of compare  //////////////////////////////////////////////////
-            source.append("public int compareTo(" + inhClass + " otherObj){\n\n");
+            source.append("public int compareTo(" + ClassLoader.getTheGrandParentName(parentClassLoader.getLoadedClass()) + " otherObj){\n\n");
             source.append(className + " other = (" + className + ") otherObj;\n\n");
             source.append("if(this.equals(other))return 0;\n\n");
             String s1 = "";
             for (MyField field : fields) {
                 if (field.isCompared) {
                     if (!TypeRepository.getRepository().getType(field.attType).equals(TypeRepository.PRIMITIVE) && TypeRepository.getRepository().getType(field.attType) instanceof Comparable) {
-                        s1 = s1 + field.attName + ".compareTo(otherObj." + field.attName + ")+";
+                        s1 = s1 + field.attName + ".compareTo(other." + field.attName + ")+";
                     } else {
                         s1 = s1 + "toInteger(" + field.attName + "<other." + field.attName + ")+";
                     }
@@ -112,10 +113,6 @@ public class JavaDynamicClassCreation {
             source.append("return " + s + ";\n\n");
             source.append("}\n\n");
             ////////////////////////////////////////////////////////////////////////
-            source.append("public int toInteger(boolean b){\n\n"
-                    + "if(b==true)return 1;\n\n"
-                    + "return 0;}\n\n");
-            source.append("}\n\n");
    
         } else {
             source.append("public class " + className + " implements Comparable<" + className + ">{\n\n"); // badna nzeed extends lal class in choiceBox
@@ -177,7 +174,11 @@ public class JavaDynamicClassCreation {
             s = s.substring(0, s.length() - 3);
             source.append("return " + s + ";\n\n");
             source.append("}\n\n");
-            ////////////////////////////////////////////////////////////////////////
+        
+        }
+        
+        
+       ////////////////////////////////////////////////////////////////////////
             source.append("public int toInteger(boolean b){\n\n"
                     + "if(b==true)return 1;\n\n"
                     + "return 0;}\n\n");
@@ -195,8 +196,6 @@ public class JavaDynamicClassCreation {
                 source.append(hash+"return hash;\n}\n\n");
                 
             source.append("}\n\n");
-        
-        }
         
                  File file = new File(fullClassName + ".java");
             FileWriter fr = null;
