@@ -213,6 +213,8 @@ public class JavaDynamicClassCreation {
                 }
             }
             
+            TypeRepository.getRepository().add(className, "NOT_PRIMITVE");
+            
             
                 // A byte array output stream containing the bytes that would be written to the .class file
             final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

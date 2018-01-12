@@ -6,6 +6,7 @@
 package dictionary_master;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TypeRepository {
@@ -22,11 +23,18 @@ public class TypeRepository {
 		map.put("String", new String());
 		map.put("boolean", PRIMITIVE);
 		map.put("double", PRIMITIVE);
+                loadFromFiles();
 		
 	}
         
         private void loadFromFiles(){
+            ArrayList<String> list=new ArrayList();
             
+            FileOperations.readFromFile(list);
+            
+            for(String name:list){
+                map.put(name, "NOT_PRIMITIVE");
+            }
         }
 	
 	
