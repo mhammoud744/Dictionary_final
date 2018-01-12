@@ -1,0 +1,2 @@
+Stringc
+intx

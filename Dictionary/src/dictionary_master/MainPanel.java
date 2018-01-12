@@ -111,7 +111,7 @@ public class MainPanel extends Application {
     Button compareObjP3 = new Button();
 
     @Override
-    public void start(Stage primaryStage) throws ClassNotFoundException, IllegalAccessException, InstantiationException, URISyntaxException, NoSuchFieldException {
+    public void start(Stage primaryStage) throws ClassNotFoundException, IllegalAccessException, InstantiationException, URISyntaxException, NoSuchFieldException, NoSuchMethodException, InvocationTargetException {
         //Labels , TextBoxes , Buttons
         createObjP3.setText("Create Object");
         compareObjP3.setText("Compare Objects");
@@ -220,7 +220,7 @@ public class MainPanel extends Application {
         primaryStage.setTitle("Netbeans");
         primaryStage.setScene(scene1);
         scene1.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
-
+        System.out.println("Grand parent is "+ClassLoader.getTheGrandParentName(ClassLoader.loadClass("dictionary_master", "Mnb")));
         //Set Classes and Id's for style sheet design
         //Buttons and textfields
         createClassBtnP1.getStyleClass().add("btnStyle");
@@ -466,24 +466,7 @@ public class MainPanel extends Application {
             public void handle(ActionEvent e) {
                 for (MyField f : (ArrayList<MyField>) field) {
                     f.setAttributes();
-                    try {
-                        Class cls = Class.forName("dictionary_master.Code");
-                        Object obj = cls.getDeclaredConstructor(int.class, int.class, int.class, int.class).newInstance(1, 2, 3, 4);
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InstantiationException ex) {
-                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IllegalAccessException ex) {
-                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (NoSuchMethodException ex) {
-                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SecurityException ex) {
-                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IllegalArgumentException ex) {
-                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InvocationTargetException ex) {
-                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+
 
                     if (!f.attName.isEmpty()) {
                         System.out.println("name " + f.attName + " type " + f.attType + " checked " + f.isCompared);

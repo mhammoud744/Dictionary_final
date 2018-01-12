@@ -42,5 +42,6 @@ public class MyField {
       attType=choiceBox.getValue().toString();
       isCompared=checkbox.isSelected();
   }
+  
 
 }
