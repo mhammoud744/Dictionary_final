@@ -1,14 +1,14 @@
 package dictionary_master;
 
-public class E implements Comparable<E>{
+public class Name implements Comparable<Name>{
 
-int bn;
+String name;
 
-public E(int bn)
+public Name(String name)
 
 {
 
-this.bn=bn;
+this.name=name;
 
 }
 
@@ -20,17 +20,17 @@ return ""; }
 
 @Override
 
-public int compareTo(E otherObj){
+public int compareTo(Name otherObj){
 
 if(this.equals(otherObj))return 0;
 
-return toInteger(bn<otherObj.bn);}
+return name.compareTo(otherObj.name);}
 
 @Override
 
 public boolean equals(Object otherObj){
 
-E other=(E)otherObj; 
+Name other=(Name)otherObj; 
 
 if(this==otherObj){
 
@@ -48,7 +48,7 @@ if(this.getClass()!=otherObj.getClass())
 
  return false; 
 
-return bn==other.bn;
+return name.equals(other.name);
 
 }
 
@@ -60,7 +60,8 @@ return 0;}
 
 @Override
 public int hashCode(){
- int hash=0;hash=hash+this.bn;
+ int hash=0;
+hash=hash+this.name.hashCode();
 return hash;
 }
 

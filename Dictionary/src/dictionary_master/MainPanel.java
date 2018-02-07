@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import javafx.geometry.Insets;
 import java.util.ArrayList;
@@ -115,20 +116,20 @@ public class MainPanel extends Application {
         //Labels , TextBoxes , Buttons
         createObjP3.setText("Create Object");
         compareObjP3.setText("Compare Objects");
-        compareResultP5.setText("fadye");
+        compareResultP5.setText("");
         compareLabelP5.setText("Choose 2 objects to compare them :");
         compareBtnP5.setText("Compare now");
         objTypeP4.setText("Object type : ");
         attrNameP3.setText("Attribute name");
         attrEqualP3.setText("Check for equal method");
         attrtypeP3.setText("Attribute type");
-            attrLabelP3.setText("                ");
+        attrLabelP3.setText("                ");
         finishBtnP4.setDisable(true);
 //        attrLabelP4.setText("Name");
 
-       numOfAttribP3.setFocusTraversable(false);
+        numOfAttribP3.setFocusTraversable(false);
         numOfAttribP3.setPromptText("Number of attributes");
-        
+
         classLabelP2.setText("Class name : ");
         inheritsLabelP2.setText("Inherits : ");
         nextBtnP2.setText("Next");
@@ -141,15 +142,14 @@ public class MainPanel extends Application {
         fillObjAttribP4.setText("Fill the attributes");
         //Hbox and Vbox
         hbox2P3.getChildren().add(finishBtnP3);
-              hbox2P3.getChildren().add(createObjP3);
+        hbox2P3.getChildren().add(createObjP3);
         hbox2P3.getChildren().add(compareObjP3);
-
         hboxP4.getChildren().add(objTypeP4);
         hboxP4.getChildren().add(choiceBoxP4);
         hboxP4.getChildren().add(fillObjAttribP4);
         hbox2P3.setId("hid");
-        // vboxP1.getChildren().add(createClassBtnP1);
-        // vboxP1.getChildren().add(createObjectBtnP1);
+        vboxP1.getChildren().add(createClassBtnP1);
+        vboxP1.getChildren().add(createObjectBtnP1);
         vboxP2.getChildren().add(hbox1P2);
         vboxP2.getChildren().add(hbox2P2);
         vboxP2.setId("vboxP2");
@@ -184,8 +184,8 @@ public class MainPanel extends Application {
         P5.setCenter(gridP5);
         P5.setPadding(new Insets(20, 20, 20, 125));
         gridP2.add(classLabelP2, 4, 4);
-        gridP2.add(classNameP2, 5,4);
-        gridP2.add(inheritsLabelP2,4, 6);
+        gridP2.add(classNameP2, 5, 4);
+        gridP2.add(inheritsLabelP2, 4, 6);
         gridP2.add(choiceBoxP2, 5, 6);
         /////////////////////////
         gridP1.add(createClassBtnP1, 7, 3);
@@ -220,7 +220,6 @@ public class MainPanel extends Application {
         primaryStage.setTitle("Netbeans");
         primaryStage.setScene(scene1);
         scene1.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
-        System.out.println("Grand parent is "+ClassLoader.getTheGrandParentName(ClassLoader.loadClass("dictionary_master", "Mnb")));
         //Set Classes and Id's for style sheet design
         //Buttons and textfields
         createClassBtnP1.getStyleClass().add("btnStyle");
@@ -237,8 +236,8 @@ public class MainPanel extends Application {
         compareObjectsBtnP1.getStyleClass().add("btnStyle");
         compareBtnP5.getStyleClass().add("btnStyle");
         createObjP3.getStyleClass().add("btnStyle");
-                compareObjP3.getStyleClass().add("btnStyle");
-                classNameP2.setPrefWidth(100);
+        compareObjP3.getStyleClass().add("btnStyle");
+        classNameP2.setPrefWidth(100);
         //Panes
         P1.getStyleClass().add("background");
         P2.getStyleClass().add("background");
@@ -256,18 +255,22 @@ public class MainPanel extends Application {
                 myStage.setScene(scene2);
             }
         });
-        
+
         //createObjP3 button on click
         createObjP3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-
-                Scene scene2 = new Scene(P4, 740, 500);
-                scene2.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
-                myStage.setScene(scene2);
+                Scene scene3 = new Scene(P4, 740, 500);
+                scene3.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
+                myStage.setScene(scene3);
+                FileOperations.readFromFile(classArrListP4);
+                classObListP4.addAll(array1P3);
+                choiceBoxP4.getSelectionModel().selectFirst();
+                choiceBoxP4.setItems(classObListP4);
+                System.out.println("this is all");
             }
         });
-        
+
         //compareObjP3 button on click
         compareObjP3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -276,6 +279,13 @@ public class MainPanel extends Application {
                 Scene scene2 = new Scene(P5, 740, 500);
                 scene2.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
                 myStage.setScene(scene2);
+                compareObListP5.addAll(obList1P3);
+                compareObListP5.remove("None");
+                System.out.println(compareObListP5);
+                choiceBox1P5.setItems(compareObListP5);
+                choiceBox1P5.getStyleClass().add("choiceBoxStyle");
+                choiceBox2P5.setItems(compareObListP5);
+                choiceBox2P5.getStyleClass().add("choiceBoxStyle");
             }
         });
 
@@ -317,12 +327,46 @@ public class MainPanel extends Application {
         compareBtnP5.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                System.out.println(choiceBox1P5.getValue().toString());
-                System.out.println(choiceBox2P5.getValue().toString());
-                //c1=choiceBox1P5.getValue().toString();
-                //c2=choiceBox2P5.getValue().toString();
-                //if c1 not super of c2 and c2 not super of c1 --> alert
-                //else c1.compare(c2);
+                try {
+                    System.out.println(choiceBox1P5.getValue().toString());
+                    System.out.println(choiceBox2P5.getValue().toString());
+
+                    if (choiceBox1P5.getValue().toString().compareTo(choiceBox2P5.getValue().toString()) != 0) {
+                        compareResultP5.setText("Not equal and not compatible");
+                    } else {
+                        ClassLoader loader1 = new ClassLoader(choiceBox1P5.getValue().toString());
+                        ClassLoader loader2 = new ClassLoader(choiceBox2P5.getValue().toString());
+                        //c1=choiceBox1P5.getValue().toString();
+                        //c2=choiceBox2P5.getValue().toString();
+                        //if c1 not super of c2 and c2 not super of c1 --> alert
+                        //else c1.compare(c2);
+
+                        Object o1 = new ClassLoader(choiceBox1P5.getValue().toString()).createInstance(1, 2);
+                        Object o2 = new ClassLoader(choiceBox2P5.getValue().toString()).createInstance(1, 2);
+
+                        Method method = new ClassLoader(choiceBox1P5.getValue().toString()).getCompareToMethod();
+                        int result = (int) method.invoke(o1, o2);
+
+                        if (result == 0) {
+                            compareResultP5.setText("They are equal");
+                        } else {
+                            compareResultP5.setText("They are not equal");
+                        }
+                    }
+
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NoSuchMethodException ex) {
+                    Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalArgumentException ex) {
+                    Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InvocationTargetException ex) {
+                    Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
         });
@@ -372,12 +416,14 @@ public class MainPanel extends Application {
             public void handle(ActionEvent e) {
                 System.out.println("gdg " + choiceBoxP4.getValue());
                 FileOperations.readCreatedFile(choiceBoxP4.getValue().toString(), createObjArrListP4);
-                for (int i = 0, j = 0; i < createObjArrListP4.size(); i = i + 2, j++) {
+                for (int i = 0, j = 0; i < createObjArrListP4.size(); i++, j++) {
                     TextField nAttr = new TextField();
                     Label type = new Label();
                     Label name = new Label();
+                    System.out.println(createObjArrListP4);
                     type.setText(createObjArrListP4.get(i).toString());
-                    name.setText(createObjArrListP4.get(i + 1).toString());
+                    System.out.println(createObjArrListP4.get(i).toString());
+                    //name.setText(createObjArrListP4.get(i + 1).toString());
                     gridP4.add(type, 0, j + 2);
                     gridP4.add(name, 1, j + 2);
                     gridP4.add(nAttr, 2, j + 2);
@@ -466,7 +512,6 @@ public class MainPanel extends Application {
             public void handle(ActionEvent e) {
                 for (MyField f : (ArrayList<MyField>) field) {
                     f.setAttributes();
-
 
                     if (!f.attName.isEmpty()) {
                         System.out.println("name " + f.attName + " type " + f.attType + " checked " + f.isCompared);

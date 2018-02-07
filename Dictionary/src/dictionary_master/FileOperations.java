@@ -22,9 +22,7 @@ import java.util.logging.Logger;
  * @author Batoul
  */
 public class FileOperations {
-    
-    
-    
+
     public static void readFromFile(List list) {
         File file = new File("./src/dictionary_master/classes.txt");
         Scanner readfile = null;
@@ -41,7 +39,7 @@ public class FileOperations {
     }
 
     public static boolean searchFile(String s) {
-        List<String> searchList =new ArrayList();
+        List<String> searchList = new ArrayList();
         readFromFile(searchList);
         for (String temp : searchList) {
             if (temp.equals(s)) {
@@ -71,14 +69,14 @@ public class FileOperations {
         String path = "./src/dictionary_master/fileFolder/" + filename + ".txt";
         PrintWriter pw = new PrintWriter(path);
         for (MyField f : attributes) {
-            pw.print(f.attType +" ");
+            pw.print(f.attType + " ");
             pw.println(f.attName);
-            
+
         }
         pw.close();
     }
 
-    public static void readCreatedFile(String filename,List list) {
+    public static void readCreatedFile(String filename, List list) {
         String path = "./src/dictionary_master/fileFolder/" + filename + ".txt";
         File file = new File(path);
         Scanner readfile = null;
@@ -93,5 +91,5 @@ public class FileOperations {
         }
         readfile.close();
     }
-    
+
 }

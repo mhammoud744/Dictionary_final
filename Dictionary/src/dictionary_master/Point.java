@@ -1,14 +1,18 @@
 package dictionary_master;
 
-public class Ad implements Comparable<Ad>{
+public class Point implements Comparable<Point>{
 
-int c;
+int x;
 
-public Ad(int c)
+int y;
+
+public Point(int x,int y)
 
 {
 
-this.c=c;
+this.x=x;
+
+this.y=y;
 
 }
 
@@ -20,17 +24,17 @@ return ""; }
 
 @Override
 
-public int compareTo(Ad otherObj){
+public int compareTo(Point otherObj){
 
 if(this.equals(otherObj))return 0;
 
-return toInteger(c<otherObj.c);}
+return toInteger(x<otherObj.x)+toInteger(y<otherObj.y);}
 
 @Override
 
 public boolean equals(Object otherObj){
 
-Ad other=(Ad)otherObj; 
+Point other=(Point)otherObj; 
 
 if(this==otherObj){
 
@@ -48,7 +52,7 @@ if(this.getClass()!=otherObj.getClass())
 
  return false; 
 
-return c==other.c;
+return x==other.x &&y==other.y;
 
 }
 
@@ -57,6 +61,15 @@ public int toInteger(boolean b){
 if(b==true)return 1;
 
 return 0;}
+
+@Override
+public int hashCode(){
+ int hash=0;
+hash=hash+this.x;
+hash=hash+this.x;
+hash=hash+this.y;
+return hash;
+}
 
 }
 
