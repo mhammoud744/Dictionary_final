@@ -7,7 +7,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class JavaDynamicClassCreation {
     private String className;
     private String inhClass;
     private ArrayList<MyField> fields;
+   
 
     public JavaDynamicClassCreation() {
         this.className = "Hello";
@@ -34,7 +37,7 @@ public class JavaDynamicClassCreation {
         this.inhClass = inhClass;
     }
 
-    public void dynamicClassCreation() throws ClassNotFoundException, IllegalAccessException, InstantiationException, URISyntaxException, NoSuchFieldException {
+    public void dynamicClassCreation() throws ClassNotFoundException, IllegalAccessException, InstantiationException, URISyntaxException, NoSuchFieldException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException {
         final String path = "./src/dictionary_master";
         final String fullClassName = path + "/" + className;
         String constructor = "public " + className + "(";
@@ -57,7 +60,7 @@ public class JavaDynamicClassCreation {
             // Class inhClass=null;
             //inhClass.getFields();
 
-            constructorBody += "super(" + superArguments.substring(0, superArguments.length() - 1) + ");";
+            
             for (MyField field : fields) {
                 source.append(field.attType + " " + field.attName + ";\n\n");
                 costructorArguments += field.attType + " " + field.attName + ",";
@@ -230,7 +233,8 @@ public class JavaDynamicClassCreation {
 
     }
 
-    public static final void main(String... args) throws ClassNotFoundException, URISyntaxException, NoSuchFieldException, InstantiationException, IllegalAccessException {
+    public static final void main(String... args) throws ClassNotFoundException, URISyntaxException, NoSuchFieldException, InstantiationException, IllegalAccessException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException {
+
         new JavaDynamicClassCreation().dynamicClassCreation();
     }
 

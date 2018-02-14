@@ -41,7 +41,7 @@ public class MainPanel extends Application {
     int flag = 0;
     int getNbOfAtt;
     String attName;
-    String classConstructor;
+    String choiceBoxClassName;
     String attType;
     boolean isEqual;
     String inhClass;
@@ -375,20 +375,20 @@ public class MainPanel extends Application {
         finishBtnP4.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                System.out.println("attributes are saved");
                 for (MyField f : (ArrayList<MyField>) field) {
-                    if (!f.attValue.isEmpty()) {
+                    f.setCreatedObj();
+                    if (f.attValue.isEmpty()) {
                         Alert.display("", "Please fill the Value of attributes");
                     } else {
-                        System.out.println("zabateeeeeeet" + f.attValue);
-                        classConstructor = choiceBoxP4.getValue().toString();
+                        System.out.println("zabateeeeeeet" + f.attValue);//ma 3m ye5od l value l hon
+                        choiceBoxClassName = choiceBoxP4.getValue().toString();
                         Class c = null;
                         try {
-                            c = Class.forName("dictionary_master." + classConstructor);//package.esemlclass
+                            c = Class.forName("dictionary_master." + choiceBoxClassName);//package.esemlclass
                         } catch (ClassNotFoundException ex) {
                             Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        ArrayList<Class> objAttributesp4 = new ArrayList<Class>();
+                        ArrayList<Class<?>> objAttributesp4 = new ArrayList<>();
                         Field[] f2 = c.getFields();//get fields of class
                         for (Field element : f2) {
                             System.out.println(element.getType());
@@ -397,16 +397,46 @@ public class MainPanel extends Application {
                         Constructor<?> cons;
 
                         try {
+                            ArrayList<Object> objValues = new ArrayList<>();
                             cons = c.getConstructor((Class[]) objAttributesp4.toArray());
+                            for (MyField ff : field) {
+                                String fieldType = ff.attType;
+                                Object o = null;
+
+                                if (fieldType == "int") {
+                                    o = Integer.parseInt(ff.attValue);
+                                }
+                                if (fieldType == "double") {
+                                    o = Double.parseDouble(ff.attValue);
+                                }
+                                if (fieldType == "boolean") {
+                                    o = Boolean.parseBoolean(ff.attValue);
+                                }
+
+                                objValues.add(o);
+                            }
+                            Object oNew = cons.newInstance(objValues.toArray());
+                            System.out.println(oNew.toString());
+                            //  cons.newInstance();
                         } catch (NoSuchMethodException ex) {
                             Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (SecurityException ex) {
+                            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InstantiationException ex) {
+                            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (IllegalAccessException ex) {
+                            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (IllegalArgumentException ex) {
+                            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InvocationTargetException ex) {
                             Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         //constructor bdo bs l values ka Array of objects
                         //y3ni eza int 55  bdo ykon Object o=new Ineteger(55);
                     }
                 }
+                System.out.println("attributes are saved");
+
             }
         });
 
@@ -522,7 +552,7 @@ public class MainPanel extends Application {
                     }
                 }
                 if (flag == 1) {
-                    System.out.println("flag = " + flag + " " + inhClass);
+                    //  System.out.println("flag = " + flag + " " + inhClass);
                     try {
                         new JavaDynamicClassCreation(classNameP2.getText(), field, inhClass).dynamicClassCreation();
                     } catch (ClassNotFoundException ex) {
@@ -534,6 +564,12 @@ public class MainPanel extends Application {
                     } catch (URISyntaxException ex) {
                         Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (NoSuchFieldException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (NoSuchMethodException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IllegalArgumentException ex) {
+                        Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InvocationTargetException ex) {
                         Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
 

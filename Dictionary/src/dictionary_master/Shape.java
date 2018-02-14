@@ -1,18 +1,18 @@
 package dictionary_master;
 
-public class Point implements Comparable<Point>{
+public class Shape implements Comparable<Shape>{
 
-int x;
+int length;
 
-int y;
+int width;
 
-public Point(int x,int y)
+public Shape(int length,int width)
 
 {
 
-this.x=x;
+this.length=length;
 
-this.y=y;
+this.width=width;
 
 }
 
@@ -24,17 +24,17 @@ return ""; }
 
 @Override
 
-public int compareTo(Point otherObj){
+public int compareTo(Shape otherObj){
 
 if(this.equals(otherObj))return 0;
 
-return toInteger(x<otherObj.x)+toInteger(y<otherObj.y);}
+return toInteger(length<otherObj.length)+toInteger(width<otherObj.width);}
 
 @Override
 
 public boolean equals(Object otherObj){
 
-Point other=(Point)otherObj; 
+Shape other=(Shape)otherObj; 
 
 if(this==otherObj){
 
@@ -52,7 +52,7 @@ if(this.getClass()!=otherObj.getClass())
 
  return false; 
 
-return x==other.x &&y==other.y;
+return length==other.length &&width==other.width;
 
 }
 
@@ -65,9 +65,9 @@ return 0;}
 @Override
 public int hashCode(){
  int hash=0;
-hash=hash+this.x;
-hash=hash+this.x;
-hash=hash+this.y;
+hash=hash+this.length;
+hash=hash+this.length;
+hash=hash+this.width;
 return hash;
 }
 
