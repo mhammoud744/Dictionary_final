@@ -12,7 +12,7 @@ import java.util.HashMap;
  *
  * @author HP
  *///pool bsayev objects bl map uses  flyweight pattern berga3 objc of same name different content
-public class ObjectFactory {
+public class ObjectPool {
 
     private static final HashMap<Integer, Object> objectMap = new HashMap();
 
