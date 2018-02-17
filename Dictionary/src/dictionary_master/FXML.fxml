@@ -26,8 +26,12 @@
             <Button fx:id="done" mnemonicParsing="false" onAction="#doneFunc" prefHeight="57.0" prefWidth="142.0" text="Done" GridPane.rowIndex="2" />
             <VBox prefHeight="80.0" prefWidth="147.0" spacing="8.0" GridPane.rowIndex="1">
                <children>
-                  <RadioButton mnemonicParsing="false" text="Add friend" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <RadioButton mnemonicParsing="false" text="Add enemy" GridPane.rowIndex="1" />
+                  <RadioButton fx:id="frnd" mnemonicParsing="false" onAction="#doneFunc" selected="true" text="Add friend" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="choice" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="enemy" mnemonicParsing="false" onAction="#doneFunc" text="Add enemy" toggleGroup="$choice" GridPane.rowIndex="1" />
                </children>
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />

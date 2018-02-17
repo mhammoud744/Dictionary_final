@@ -22,6 +22,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -78,6 +81,8 @@ public class MainPanel extends Application {
     GridPane gridP5 = new GridPane();
     //Stage
     Stage myStage;
+    public static Stage myStage1;
+    public static Scene scene34;
     //ObservableLists and Lists
     ArrayList<MyField> field = new ArrayList();
     List array1P3 = new ArrayList();
@@ -217,6 +222,7 @@ public class MainPanel extends Application {
         //Stage and Scene
         myStage = primaryStage;
         Scene scene1 = new Scene(P1, 740, 500);
+        scene34 = scene1;
         primaryStage.setTitle("Netbeans");
         primaryStage.setScene(scene1);
         scene1.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
@@ -245,7 +251,7 @@ public class MainPanel extends Application {
         P4.getStyleClass().add("background");
         P5.getStyleClass().add("background");
 
-        //createClassBtnP1 button on click
+        /*createClassBtnP1 button on click
         createClassBtnP1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -253,6 +259,23 @@ public class MainPanel extends Application {
                 Scene scene2 = new Scene(P2, 740, 500);
                 scene2.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
                 myStage.setScene(scene2);
+            }
+        });*/
+         createClassBtnP1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+
+                try {
+                    Parent pr = FXMLLoader.load(getClass().getResource("FXML.fxml"));
+                    Scene sce3 = new Scene(pr);
+                    Stage app_stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+                    app_stage.setScene(sce3);
+                    app_stage.show();
+
+                } catch (IOException ex) {
+                    Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
         });
 

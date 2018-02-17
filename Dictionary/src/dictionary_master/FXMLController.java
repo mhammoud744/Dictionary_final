@@ -1,30 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package dictionary_master;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 
-/**
- * FXML Controller class
- *
- * @author user
- */
 public class FXMLController implements Initializable {
+    @FXML
+    RadioButton frnd;        
+    @FXML
+    RadioButton enemy;
+    @FXML
+    ToggleGroup  choice;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    
     } 
     public void doneFunc(){
-        System.out.println("done function");
+        if(choice.getSelectedToggle().equals(frnd))
+             System.out.println("add frnd"); //add frnd
+        else if(choice.getSelectedToggle().equals(enemy))
+            System.out.println("add enemy"); //add enemy
+        else
+             System.out.println("Choose one of the above"); //no choice
+        
+            
     }
     
 }
