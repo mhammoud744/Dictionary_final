@@ -115,6 +115,7 @@ public class MainPanel extends Application {
     Button compareBtnP5 = new Button();
     Button createObjP3 = new Button();
     Button compareObjP3 = new Button();
+Button addFrndEnemyP1 = new Button();
 
     @Override
     public void start(Stage primaryStage) throws ClassNotFoundException, IllegalAccessException, InstantiationException, URISyntaxException, NoSuchFieldException, NoSuchMethodException, InvocationTargetException {
@@ -130,11 +131,9 @@ public class MainPanel extends Application {
         attrtypeP3.setText("Attribute type");
         attrLabelP3.setText("                ");
         finishBtnP4.setDisable(true);
-//        attrLabelP4.setText("Name");
-
+        addFrndEnemyP1.setText("Add frnd/enemy");/////////
         numOfAttribP3.setFocusTraversable(false);
         numOfAttribP3.setPromptText("Number of attributes");
-
         classLabelP2.setText("Class name : ");
         inheritsLabelP2.setText("Inherits : ");
         nextBtnP2.setText("Next");
@@ -196,6 +195,7 @@ public class MainPanel extends Application {
         gridP1.add(createClassBtnP1, 7, 3);
         gridP1.add(createObjectBtnP1, 7, 5);
         gridP1.add(compareObjectsBtnP1, 7, 4);
+        gridP1.add(addFrndEnemyP1, 7, 6);
         gridP3.add(attrLabelP3, 0, 0);
         gridP3.add(numOfAttribP3, 1, 0);
         gridP3.add(okBtnP3, 2, 0);
@@ -251,22 +251,34 @@ public class MainPanel extends Application {
         P4.getStyleClass().add("background");
         P5.getStyleClass().add("background");
 
-        /*createClassBtnP1 button on click
+        //createClassBtnP1 button on click
         createClassBtnP1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+                  try {
+                    Parent pr = FXMLLoader.load(getClass().getResource("createClass.fxml"));
+                    Scene sce3 = new Scene(pr);
+                    Stage app_stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+                    app_stage.setScene(sce3);
+                    app_stage.show();
 
-                Scene scene2 = new Scene(P2, 740, 500);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+               /* Scene scene2 = new Scene(P2, 740, 500);
                 scene2.getStylesheets().add(MainPanel.class.getResource("myStyle1.css").toExternalForm());
-                myStage.setScene(scene2);
+                myStage.setScene(scene2);*/
             }
-        });*/
-         createClassBtnP1.setOnAction(new EventHandler<ActionEvent>() {
+        });
+        
+        //addFrndEnemyP1 Btn
+         addFrndEnemyP1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
 
                 try {
-                    Parent pr = FXMLLoader.load(getClass().getResource("FXML.fxml"));
+                    Parent pr = FXMLLoader.load(getClass().getResource("addFrndEnemy.fxml"));
                     Scene sce3 = new Scene(pr);
                     Stage app_stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
                     app_stage.setScene(sce3);
