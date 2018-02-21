@@ -1,0 +1,40 @@
+.background{
+    -fx-font: bold italic 14pt "Comic Sans MS";
+    -fx-background-image:url("wallpaper.jpg");
+}
+.btnStyle{
+    -fx-background-color:#4cc2a9;
+    -fx-border-radius: 5px;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-border-style:solid;
+}
+#alert{
+    -fx-font: bold italic 15pt "Comic Sans MS";
+    -fx-background-color:#eb43d1;
+}
+
+.choiceBoxStyle {
+    -fx-background-color:#4cc2a9;
+    -fx-border-radius: 5px;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-border-style:solid;
+    -fx-mark-color: #eb43d1;
+}
+
+.choiceBoxStyle .menu-item:focused {
+  -fx-background-color: #eb43d1 ; /* for example */
+}
+
+.choiceBoxStyle .context-menu {
+    -fx-background-color:#4cc2a9;
+    -fx-border-radius: 5px;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-border-style:solid;
+    -fx-mark-color: #eb43d1;
+}
+.choiceBoxStyle:active{
+    -fx-background-color:orange;
+}
