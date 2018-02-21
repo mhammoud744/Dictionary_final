@@ -423,12 +423,10 @@ Button addFrndEnemyP1 = new Button();
                         } catch (ClassNotFoundException ex) {
                             Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        System.out.println("abl l array list");
                         ArrayList<Class<?>> objAttributesp4 = new ArrayList<>();
                         Field[] f2 = c.getFields();//get fields of class
-                        System.out.println("abl l element");
                         for (Field element : f2) {
-                            System.out.println("type lal element"+element.getType());
+                            System.out.println(element.getType());
                             objAttributesp4.add(element.getType());
                         }
                         Constructor<?> cons;
